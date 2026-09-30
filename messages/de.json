@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "countries": "Länder",
+    "pricing": "Preise",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "apply": "IDP beantragen",
+    "login": "Anmelden",
+    "dashboard": "Dashboard",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "badge": "Anerkannt in über 189 Ländern",
+    "headline": "Holen Sie Ihren internationalen Führerschein in wenigen Minuten",
+    "subtext": "Beantragen Sie online einen IDP, der in 189+ Ländern akzeptiert wird. Digitale Lieferung in 2-4 Stunden.",
+    "cta_primary": "IDP online beantragen →",
+    "cta_secondary": "Was ist ein IDP?"
+  },
+  "stats": {
+    "countries": "Anerkannte Länder",
+    "idps": "Bearbeitete IDP-Anträge",
+    "time": "Mittlere Antragszeit",
+    "validity": "Maximale IDP-Gültigkeit"
+  },
+  "howItWorks": {
+    "title": "So erhalten Sie Ihren internationalen Führerschein",
+    "subtitle": "In Minuten beantragen, in Stunden erhalten. Kein Papierkram, keine Warteschlangen.",
+    "step1_title": "Antrag ausfüllen",
+    "step1_desc": "Füllen Sie das einfache Online-Formular mit Ihren Daten und Führerscheininformationen aus.",
+    "step2_title": "Dokumente hochladen",
+    "step2_desc": "Laden Sie Ihr Passfoto und Ihren Führerschein-Scan sicher hoch.",
+    "step3_title": "Zahlung tätigen",
+    "step3_desc": "Bezahlen Sie sicher per Karte oder PayPal. Alle Währungen werden akzeptiert.",
+    "step4_title": "IDP erhalten",
+    "step4_desc": "Erhalten Sie Ihren digitalen IDP per E-Mail in 2-4 Stunden. Physisches Kit wird in 24h versandt."
+  },
+  "pricing": {
+    "title": "Einfache, transparente IDP-Preise",
+    "subtitle": "Keine versteckten Gebühren. Preise werden in Ihrer Landeswährung angezeigt.",
+    "digital": "Digitaler IDP",
+    "nfc_kit": "NFC Smart Kit",
+    "digital_desc": "PDF + Digitales Zertifikat per E-Mail in 2-4 Stunden",
+    "nfc_desc": "Physisches Heft + NFC-Karte weltweit versandt",
+    "year_1": "1 Jahr",
+    "year_2": "2 Jahre",
+    "year_3": "3 Jahre",
+    "apply_now": "Jetzt beantragen",
+    "guarantee": "100% Geld-zurück-Garantie"
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen zum IDP",
+    "subtitle": "Alles, was Sie über den IDP wissen müssen"
+  },
+  "footer": {
+    "copyright": "© 2026 BookMyGlobal. Alle Rechte vorbehalten.",
+    "disclaimer": "IDP ausgestellt im Rahmen internationaler Straßenverkehrsübereinkommen. Nicht gültig ohne Originalführerschein.",
+    "links_company": "Unternehmen",
+    "links_legal": "Rechtliches",
+    "links_support": "Unterstützung"
+  },
+  "dashboard": {
+    "overview": "Übersicht",
+    "applications": "Meine Anträge",
+    "upload": "Dokumente hochladen",
+    "download": "Downloads",
+    "tracking": "Sendung verfolgen",
+    "profile": "Profil",
+    "welcome": "Willkommen zurück",
+    "no_applications": "Noch keine Anträge",
+    "apply_first": "Beantragen Sie Ihren ersten IDP"
+  },
+  "application": {
+    "step1": "Produkt auswählen",
+    "step2": "Ihre Daten",
+    "step3": "Zahlung",
+    "step4": "Dokumente hochladen",
+    "title": "Internationalen Führerschein beantragen",
+    "full_name": "Vollständiger Name",
+    "email": "E-Mail-Adresse",
+    "phone": "Telefonnummer",
+    "dob": "Geburtsdatum",
+    "country": "Ausstellungsland",
+    "license_number": "Führerscheinnummer",
+    "submit": "Antrag absenden"
+  },
+  "verify": {
+    "valid": "Gültiger IDP",
+    "expired": "Abgelaufener IDP",
+    "invalid": "Ungültiger IDP",
+    "not_found": "IDP nicht gefunden",
+    "scan_title": "Internationalen Führerschein verifizieren"
+  },
+  "common": {
+    "apply_now": "Jetzt beantragen",
+    "learn_more": "Mehr erfahren",
+    "download": "Herunterladen",
+    "track": "Verfolgen",
+    "loading": "Laden...",
+    "error": "Etwas ist schiefgelaufen",
+    "retry": "Erneut versuchen",
+    "back": "Zurück",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "countries": "Pays",
+    "pricing": "Tarifs",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "apply": "Demander un permis",
+    "login": "Connexion",
+    "dashboard": "Tableau de bord",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "Reconnu dans plus de 189 pays",
+    "headline": "Obtenez votre Permis de Conduire International en quelques minutes",
+    "subtext": "Demandez en ligne un PCI accepté dans 189+ pays. Livraison numérique en 2–4 heures.",
+    "cta_primary": "Demander un PCI en ligne →",
+    "cta_secondary": "Qu'est-ce qu'un PCI ?"
+  },
+  "stats": {
+    "countries": "Pays reconnus",
+    "idps": "Demandes de PCI traitées",
+    "time": "Délai moyen de traitement",
+    "validity": "Validité maximale du PCI"
+  },
+  "howItWorks": {
+    "title": "Comment obtenir votre Permis de Conduire International",
+    "subtitle": "Demandez en minutes, recevez en heures. Sans paperasse, sans files d'attente.",
+    "step1_title": "Remplir la demande",
+    "step1_desc": "Remplissez le formulaire simple en ligne.",
+    "step2_title": "Télécharger les documents",
+    "step2_desc": "Téléchargez votre photo et permis de conduire.",
+    "step3_title": "Effectuer le paiement",
+    "step3_desc": "Payez en toute sécurité par carte ou PayPal.",
+    "step4_title": "Recevoir le PCI",
+    "step4_desc": "Recevez votre PCI numérique par e-mail en 2–4 heures."
+  },
+  "pricing": {
+    "title": "Tarification simple et transparente",
+    "subtitle": "Sans frais cachés. Prix affichés dans votre devise locale.",
+    "digital": "PCI Numérique",
+    "nfc_kit": "Kit NFC Intelligent",
+    "digital_desc": "PDF + Certificat numérique envoyé par e-mail en 2–4 heures",
+    "nfc_desc": "Livret physique + carte NFC expédié dans le monde entier",
+    "year_1": "1 An",
+    "year_2": "2 Ans",
+    "year_3": "3 Ans",
+    "apply_now": "Demander maintenant",
+    "guarantee": "Remboursement garanti à 100%"
+  },
+  "faq": {
+    "title": "FAQ sur le Permis de Conduire International",
+    "subtitle": "Tout ce que vous devez savoir sur le PCI"
+  },
+  "footer": {
+    "copyright": "© 2026 BookMyGlobal. Tous droits réservés.",
+    "disclaimer": "PCI délivré selon les conventions internationales de circulation.",
+    "links_company": "Société",
+    "links_legal": "Juridique",
+    "links_support": "Support"
+  },
+  "dashboard": {
+    "overview": "Vue d'ensemble",
+    "applications": "Mes demandes",
+    "upload": "Télécharger des documents",
+    "download": "Téléchargements",
+    "tracking": "Suivre l'envoi",
+    "profile": "Profil",
+    "welcome": "Bon retour",
+    "no_applications": "Aucune demande pour l'instant",
+    "apply_first": "Faites votre première demande de PCI"
+  },
+  "application": {
+    "step1": "Sélectionner le produit",
+    "step2": "Vos coordonnées",
+    "step3": "Paiement",
+    "step4": "Télécharger les documents",
+    "title": "Demander un Permis de Conduire International",
+    "full_name": "Nom complet",
+    "email": "Adresse e-mail",
+    "phone": "Numéro de téléphone",
+    "dob": "Date de naissance",
+    "country": "Pays de délivrance",
+    "license_number": "Numéro de permis",
+    "submit": "Soumettre la demande"
+  },
+  "verify": {
+    "valid": "PCI Valide",
+    "expired": "PCI Expiré",
+    "invalid": "PCI Invalide",
+    "not_found": "PCI introuvable",
+    "scan_title": "Vérifier le Permis de Conduire International"
+  },
+  "common": {
+    "apply_now": "Demander maintenant",
+    "learn_more": "En savoir plus",
+    "download": "Télécharger",
+    "track": "Suivre",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "retry": "Réessayer",
+    "back": "Retour",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer"
+  }
+}

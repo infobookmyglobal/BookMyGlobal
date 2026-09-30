@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "Chi siamo",
+    "countries": "Paesi",
+    "pricing": "Prezzi",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "apply": "Richiedi IDP",
+    "login": "Accedi",
+    "dashboard": "Dashboard",
+    "contact": "Contatti"
+  },
+  "hero": {
+    "badge": "Riconosciuto in oltre 189 paesi",
+    "headline": "Ottieni il tuo Permesso Internazionale di Guida in pochi minuti",
+    "subtext": "Richiedi online un IDP accettato in 189+ paesi. Consegna digitale in 2-4 ore.",
+    "cta_primary": "Richiedi IDP online →",
+    "cta_secondary": "Cos'è un IDP?"
+  },
+  "stats": {
+    "countries": "Paesi riconosciuti",
+    "idps": "Richieste IDP elaborate",
+    "time": "Tempo medio di richiesta",
+    "validity": "Validità massima IDP"
+  },
+  "howItWorks": {
+    "title": "Come ottenere il tuo Permesso Internazionale di Guida",
+    "subtitle": "Richiedi in pochi minuti, ricevi in poche ore. Nessuna burocrazia, nessuna coda.",
+    "step1_title": "Compila la richiesta",
+    "step1_desc": "Completa il semplice modulo online con i tuoi dati e le informazioni sulla patente di guida.",
+    "step2_title": "Carica i documenti",
+    "step2_desc": "Carica in modo sicuro la foto formato tessera e la scansione della patente.",
+    "step3_title": "Effettua il pagamento",
+    "step3_desc": "Paga in modo sicuro con carta o PayPal. Tutte le valute accettate.",
+    "step4_title": "Ricevi l'IDP",
+    "step4_desc": "Ricevi l'IDP digitale via e-mail in 2-4 ore. Il kit fisico viene spedito entro 24 ore."
+  },
+  "pricing": {
+    "title": "Prezzi IDP semplici e trasparenti",
+    "subtitle": "Nessun costo nascosto. I prezzi sono mostrati nella tua valuta locale.",
+    "digital": "IDP Digitale",
+    "nfc_kit": "NFC Smart Kit",
+    "digital_desc": "PDF + Certificato digitale inviato via e-mail in 2-4 ore",
+    "nfc_desc": "Libretto fisico + tessera NFC spediti in tutto il mondo",
+    "year_1": "1 Anno",
+    "year_2": "2 Anni",
+    "year_3": "3 Anni",
+    "apply_now": "Richiedi ora",
+    "guarantee": "Garanzia di rimborso del 100%"
+  },
+  "faq": {
+    "title": "Domande frequenti sull'IDP",
+    "subtitle": "Tutto quello che c'è da sapere sull'IDP"
+  },
+  "footer": {
+    "copyright": "© 2026 BookMyGlobal. Tutti i diritti riservati.",
+    "disclaimer": "IDP rilasciato secondo le convenzioni internazionali sul traffico stradale. Non valido senza patente originale.",
+    "links_company": "Azienda",
+    "links_legal": "Note legali",
+    "links_support": "Supporto"
+  },
+  "dashboard": {
+    "overview": "Panoramica",
+    "applications": "Le mie richieste",
+    "upload": "Carica documenti",
+    "download": "Download",
+    "tracking": "Traccia spedizione",
+    "profile": "Profilo",
+    "welcome": "Bentornato",
+    "no_applications": "Nessuna richiesta presente",
+    "apply_first": "Richiedi il tuo primo IDP"
+  },
+  "application": {
+    "step1": "Seleziona prodotto",
+    "step2": "I tuoi dettagli",
+    "step3": "Pagamento",
+    "step4": "Carica documenti",
+    "title": "Richiedi Permesso Internazionale di Guida",
+    "full_name": "Nome e cognome",
+    "email": "Indirizzo e-mail",
+    "phone": "Numero di telefono",
+    "dob": "Data di nascita",
+    "country": "Paese di rilascio",
+    "license_number": "Numero di patente",
+    "submit": "Invia richiesta"
+  },
+  "verify": {
+    "valid": "IDP Valido",
+    "expired": "IDP Scaduto",
+    "invalid": "IDP Non Valido",
+    "not_found": "IDP non trovato",
+    "scan_title": "Verifica Permesso Internazionale di Guida"
+  },
+  "common": {
+    "apply_now": "Richiedi ora",
+    "learn_more": "Scopri di più",
+    "download": "Scarica",
+    "track": "Traccia",
+    "loading": "Caricamento...",
+    "error": "Qualcosa è andato storto",
+    "retry": "Riprova",
+    "back": "Indietro",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "edit": "Modifica",
+    "delete": "Elimina"
+  }
+}

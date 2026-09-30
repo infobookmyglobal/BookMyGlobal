@@ -1,0 +1,16 @@
+import type { MetadataRoute } from 'next';
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://bookmyglobal.com';
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/admin', '/dashboard', '/partner', '/api/', '/sign-in', '/sign-up'],
+      },
+    ],
+    sitemap: `${APP_URL}/sitemap.xml`,
+  };
+}

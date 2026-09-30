@@ -1,0 +1,240 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(cuid())
+  clerkId       String        @unique
+  email         String        @unique
+  name          String?
+  phone         String?
+  country       String?
+  role          String        @default("USER")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  applications  Application[]
+  partner       Partner?
+}
+
+model Application {
+  id                 String    @id @default(cuid())
+  userId             String
+  productType        String
+  status             String    @default("PENDING")
+  fullName           String
+  email              String
+  phone              String
+  country            String
+  address            String?
+  destinationCountry String?
+  passportUrl        String?
+  licenseUrl         String?
+  profilePhotoUrl    String?
+  couponCode         String?
+  discountAmount     Float     @default(0)
+  baseAmount         Float
+  finalAmount        Float
+  currency           String    @default("INR")
+  adminNotes         String?
+  rejectionReason    String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id])
+  payment            Payment?
+  shipment           Shipment?
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([productType])
+}
+
+model Payment {
+  id                String      @id @default(cuid())
+  applicationId     String      @unique
+  provider          String
+  amount            Float
+  currency          String
+  status            String      @default("PENDING")
+  providerPaymentId String?
+  providerOrderId   String?
+  createdAt         DateTime    @default(now())
+  commission        Commission?
+  application       Application @relation(fields: [applicationId], references: [id])
+
+  @@index([status, createdAt])
+}
+
+model Shipment {
+  id               String      @id @default(cuid())
+  applicationId    String      @unique
+  awbNumber        String?
+  trackingUrl      String?
+  status           String      @default("pending")
+  recipientName    String
+  recipientPhone   String
+  recipientAddress String
+  dispatchedAt     DateTime?
+  deliveredAt      DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  application      Application @relation(fields: [applicationId], references: [id])
+
+  @@index([dispatchedAt])
+}
+
+model Blog {
+  id               String    @id @default(cuid())
+  title            String
+  slug             String    @unique
+  content          String
+  excerpt          String?
+  featuredImageUrl String?
+  category         String?
+  tags             String
+  seoTitle         String?
+  seoDescription   String?
+  ogImage          String?
+  canonicalUrl     String?
+  structuredData   String?
+  robots           String?   @default("index, follow")
+  status           String    @default("DRAFT")
+  publishedAt      DateTime?
+  authorId         String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Coupon {
+  id             String    @id @default(cuid())
+  code           String    @unique
+  discountType   String
+  discountValue  Float
+  maxUses        Int?
+  usedCount      Int       @default(0)
+  expiresAt      DateTime?
+  partnerId      String?
+  commissionRate Float     @default(0)
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  partner        Partner?  @relation(fields: [partnerId], references: [id])
+}
+
+model Partner {
+  id                    String       @id @default(cuid())
+  userId                String       @unique
+  referralCode          String       @unique
+  commissionRate        Float        @default(10)
+  totalReferrals        Int          @default(0)
+  totalCommissionEarned Float        @default(0)
+  isActive              Boolean      @default(true)
+  createdAt             DateTime     @default(now())
+  commissions           Commission[]
+  coupons               Coupon[]
+  user                  User         @relation(fields: [userId], references: [id])
+}
+
+model Commission {
+  id        String    @id @default(cuid())
+  partnerId String
+  paymentId String    @unique
+  amount    Float
+  status    String    @default("PENDING")
+  paidAt    DateTime?
+  createdAt DateTime  @default(now())
+  payment   Payment   @relation(fields: [paymentId], references: [id])
+  partner   Partner   @relation(fields: [partnerId], references: [id])
+}
+
+model Page {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  content          String
+  category         String   @default("General")
+  featuredImageUrl String?
+  seoTitle         String?
+  seoDescription   String?
+  ogImage          String?
+  canonicalUrl     String?
+  structuredData   String?
+  robots           String?  @default("index, follow")
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model SeoMeta {
+  id             String   @id @default(cuid())
+  pageKey        String   @unique
+  title          String
+  description    String
+  ogTitle        String?
+  ogDescription  String?
+  ogImage        String?
+  twitterCard    String   @default("summary_large_image")
+  structuredData String?
+  canonicalUrl   String?
+  updatedAt      DateTime @updatedAt
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  filename     String
+  url          String
+  s3Key        String
+  mimeType     String
+  size         Int
+  uploadedById String
+  createdAt    DateTime @default(now())
+}
+
+model PartnerRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String
+  address   String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Leads from the public site: contact form, retreat enquiries, and the
+/// "coming soon" services (flights, hotels, tours, cruise, bus, attestation, visa).
+model Enquiry {
+  id        String   @id @default(cuid())
+  type      String   @default("GENERAL") // GENERAL | RETREAT | ATTESTATION | VISA | FLIGHT | HOTEL | TOURS | CRUISE | BUS | COMMUNITY
+  name      String
+  email     String
+  phone     String?
+  message   String   @db.Text
+  meta      String?  @db.Text // free-form JSON (dates, destination, retreat plan, etc.)
+  status    String   @default("NEW") // NEW | CONTACTED | CLOSED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([type])
+}

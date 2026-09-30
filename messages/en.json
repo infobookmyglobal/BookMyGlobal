@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "countries": "Countries",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "apply": "Apply for IDP",
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "Recognised in 189+ Countries",
+    "headline": "Get Your International Driving Permit in Minutes",
+    "subtext": "Apply online for an IDP accepted in 189+ countries. Digital delivery in 2–4 hours. Physical NFC Smart Kit shipped worldwide.",
+    "cta_primary": "Apply for IDP Online →",
+    "cta_secondary": "What is an IDP?"
+  },
+  "stats": {
+    "countries": "Countries Recognised",
+    "idps": "IDP Applications Processed",
+    "time": "Average Application Time",
+    "validity": "Maximum IDP Validity"
+  },
+  "howItWorks": {
+    "title": "How to Get Your International Driving Permit",
+    "subtitle": "Apply in minutes, receive in hours. No paperwork, no queues.",
+    "step1_title": "Fill Application",
+    "step1_desc": "Complete the simple online form with your details and driving license information.",
+    "step2_title": "Upload Documents",
+    "step2_desc": "Upload your passport photo and driving license scan securely.",
+    "step3_title": "Make Payment",
+    "step3_desc": "Pay securely via card, UPI, or PayPal. All currencies accepted.",
+    "step4_title": "Receive IDP",
+    "step4_desc": "Get your digital IDP by email in 2–4 hours. Physical kit ships in 24h."
+  },
+  "pricing": {
+    "title": "Simple, Transparent IDP Pricing",
+    "subtitle": "No hidden fees. Prices shown in your local currency.",
+    "digital": "Digital IDP",
+    "nfc_kit": "NFC Smart Kit",
+    "digital_desc": "PDF + Digital Certificate emailed in 2–4 hours",
+    "nfc_desc": "Physical booklet + NFC card shipped worldwide",
+    "year_1": "1 Year",
+    "year_2": "2 Years",
+    "year_3": "3 Years",
+    "apply_now": "Apply Now",
+    "guarantee": "100% money-back guarantee"
+  },
+  "faq": {
+    "title": "International Driving Permit FAQs",
+    "subtitle": "Everything you need to know about the IDP"
+  },
+  "footer": {
+    "copyright": "© 2026 BookMyGlobal. All rights reserved.",
+    "disclaimer": "IDP issued under international road traffic conventions. Not valid without original driving license.",
+    "links_company": "Company",
+    "links_legal": "Legal",
+    "links_support": "Support"
+  },
+  "dashboard": {
+    "overview": "Overview",
+    "applications": "My Applications",
+    "upload": "Upload Documents",
+    "download": "Downloads",
+    "tracking": "Track Shipment",
+    "profile": "Profile",
+    "welcome": "Welcome back",
+    "no_applications": "No applications yet",
+    "apply_first": "Apply for your first IDP"
+  },
+  "application": {
+    "step1": "Select Product",
+    "step2": "Your Details",
+    "step3": "Payment",
+    "step4": "Upload Documents",
+    "title": "Apply for International Driving Permit",
+    "full_name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "dob": "Date of Birth",
+    "country": "Country of Issue",
+    "license_number": "License Number",
+    "submit": "Submit Application"
+  },
+  "verify": {
+    "valid": "Valid IDP",
+    "expired": "Expired IDP",
+    "invalid": "Invalid IDP",
+    "not_found": "IDP not found",
+    "scan_title": "Verify International Driving Permit"
+  },
+  "common": {
+    "apply_now": "Apply Now",
+    "learn_more": "Learn More",
+    "download": "Download",
+    "track": "Track",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try Again",
+    "back": "Go Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+}

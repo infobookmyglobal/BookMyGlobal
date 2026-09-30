@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "countries": "Países",
+    "pricing": "Precios",
+    "faq": "Preguntas frecuentes",
+    "blog": "Blog",
+    "apply": "Solicitar permiso",
+    "login": "Iniciar sesión",
+    "dashboard": "Panel de control",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "badge": "Reconocido en más de 189 países",
+    "headline": "Obtén tu Permiso Internacional de Conducir en minutos",
+    "subtext": "Solicita en línea un PIC aceptado en 189+ países. Entrega digital en 2–4 horas.",
+    "cta_primary": "Solicitar PIC en línea →",
+    "cta_secondary": "¿Qué es un PIC?"
+  },
+  "stats": {
+    "countries": "Países reconocidos",
+    "idps": "Permisos procesados",
+    "time": "Tiempo promedio de tramitación",
+    "validity": "Validez máxima del PIC"
+  },
+  "howItWorks": {
+    "title": "Cómo obtener tu Permiso Internacional de Conducir",
+    "subtitle": "Solicita en minutos, recibe en horas. Sin papeleo, sin colas.",
+    "step1_title": "Completar la solicitud",
+    "step1_desc": "Completa el formulario simple en línea.",
+    "step2_title": "Subir documentos",
+    "step2_desc": "Sube tu foto y licencia de conducir.",
+    "step3_title": "Realizar el pago",
+    "step3_desc": "Paga de forma segura con tarjeta o PayPal.",
+    "step4_title": "Recibir el PIC",
+    "step4_desc": "Recibe tu PIC digital por correo en 2–4 horas."
+  },
+  "pricing": {
+    "title": "Precios simples y transparentes",
+    "subtitle": "Sin cargos ocultos. Precios en tu moneda local.",
+    "digital": "PIC Digital",
+    "nfc_kit": "Kit NFC Inteligente",
+    "digital_desc": "PDF + Certificado digital enviado por correo en 2–4 horas",
+    "nfc_desc": "Folleto físico + tarjeta NFC enviada a todo el mundo",
+    "year_1": "1 Año",
+    "year_2": "2 Años",
+    "year_3": "3 Años",
+    "apply_now": "Solicitar ahora",
+    "guarantee": "Garantía de devolución del 100%"
+  },
+  "faq": {
+    "title": "Preguntas frecuentes sobre el PIC",
+    "subtitle": "Todo lo que necesitas saber sobre el Permiso Internacional de Conducir"
+  },
+  "footer": {
+    "copyright": "© 2026 BookMyGlobal. Todos los derechos reservados.",
+    "disclaimer": "PIC emitido bajo las convenciones internacionales de tráfico.",
+    "links_company": "Empresa",
+    "links_legal": "Legal",
+    "links_support": "Soporte"
+  },
+  "dashboard": {
+    "overview": "Resumen",
+    "applications": "Mis solicitudes",
+    "upload": "Subir documentos",
+    "download": "Descargas",
+    "tracking": "Rastrear envío",
+    "profile": "Perfil",
+    "welcome": "Bienvenido de nuevo",
+    "no_applications": "Aún no hay solicitudes",
+    "apply_first": "Solicita tu primer PIC"
+  },
+  "application": {
+    "step1": "Seleccionar producto",
+    "step2": "Tus datos",
+    "step3": "Pago",
+    "step4": "Subir documentos",
+    "title": "Solicitar Permiso Internacional de Conducir",
+    "full_name": "Nombre completo",
+    "email": "Correo electrónico",
+    "phone": "Número de teléfono",
+    "dob": "Fecha de nacimiento",
+    "country": "País de emisión",
+    "license_number": "Número de licencia",
+    "submit": "Enviar solicitud"
+  },
+  "verify": {
+    "valid": "PIC Válido",
+    "expired": "PIC Vencido",
+    "invalid": "PIC Inválido",
+    "not_found": "PIC no encontrado",
+    "scan_title": "Verificar Permiso Internacional de Conducir"
+  },
+  "common": {
+    "apply_now": "Solicitar ahora",
+    "learn_more": "Saber más",
+    "download": "Descargar",
+    "track": "Rastrear",
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "retry": "Intentar de nuevo",
+    "back": "Volver",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar"
+  }
+}

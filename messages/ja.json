@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "about": "当団体について",
+    "countries": "対応国",
+    "pricing": "料金プラン",
+    "faq": "よくある質問",
+    "blog": "ブログ",
+    "apply": "IDP申請",
+    "login": "ログイン",
+    "dashboard": "ダッシュボード",
+    "contact": "お問い合わせ"
+  },
+  "hero": {
+    "badge": "世界189カ国以上で承認済み",
+    "headline": "国際運転免許証を数分で取得",
+    "subtext": "189カ国以上で利用可能な国際運転免許証（IDP）をオンラインで申請。2〜4時間以内にデジタル配信。",
+    "cta_primary": "オンラインで申請する →",
+    "cta_secondary": "国際運転免許証とは？"
+  },
+  "stats": {
+    "countries": "対応国・地域",
+    "idps": "累計申請処理数",
+    "time": "平均申請時間",
+    "validity": "最長有効期間"
+  },
+  "howItWorks": {
+    "title": "国際運転免許証の取得方法",
+    "subtitle": "数分で申請、数時間で受け取り。書類手続きや行列はありません。",
+    "step1_title": "申請情報の入力",
+    "step1_desc": "簡単なオンラインフォームに基本情報と国内運転免許証の情報を入力します。",
+    "step2_title": "書類のアップロード",
+    "step2_desc": "証明写真と国内運転免許証のスキャン画像を安全にアップロードします。",
+    "step3_title": "お支払い",
+    "step3_desc": "カードまたはPayPalで安全に決済。すべての通貨に対応しています。",
+    "step4_title": "免許証の受け取り",
+    "step4_desc": "申請承認後、2〜4時間以内にデジタル版IDPをメールで送付。物理キットは24時間以内に発送。"
+  },
+  "pricing": {
+    "title": "シンプルで透明な料金プラン",
+    "subtitle": "隠れた費用はありません。お住まいの地域の通貨で表示されます。",
+    "digital": "デジタル版 IDP",
+    "nfc_kit": "NFCスマートキット",
+    "digital_desc": "PDF + デジタル証明書を2〜4時間以内にメール送付",
+    "nfc_desc": "冊子版免許証 + NFCスマートカードを世界中に発送",
+    "year_1": "1年間有効",
+    "year_2": "2年間有効",
+    "year_3": "3年間有効",
+    "apply_now": "今すぐ申請する",
+    "guarantee": "100%返金保証"
+  },
+  "faq": {
+    "title": "国際運転免許証（IDP）に関するよくある質問",
+    "subtitle": "IDPについて知っておくべきこと"
+  },
+  "footer": {
+    "copyright": "© 2026 BookMyGlobal. All rights reserved.",
+    "disclaimer": "国際道路交通条約に基づいて発行されるIDPです。国内の有効な本免許証がない場合は無効となります。",
+    "links_company": "運営組織",
+    "links_legal": "法的表記",
+    "links_support": "サポート"
+  },
+  "dashboard": {
+    "overview": "概要",
+    "applications": "申請履歴",
+    "upload": "書類アップロード",
+    "download": "ダウンロード",
+    "tracking": "配送追跡",
+    "profile": "プロフィール",
+    "welcome": "おかえりなさい",
+    "no_applications": "申請履歴がありません",
+    "apply_first": "初めてのIDPを申請する"
+  },
+  "application": {
+    "step1": "製品の選択",
+    "step2": "申請者情報",
+    "step3": "お支払い",
+    "step4": "書類のアップロード",
+    "title": "国際運転免許証の申請",
+    "full_name": "氏名（ローマ字）",
+    "email": "メールアドレス",
+    "phone": "電話番号",
+    "dob": "生年月日",
+    "country": "免許証の発行国",
+    "license_number": "運転免許証番号",
+    "submit": "申請を送信する"
+  },
+  "verify": {
+    "valid": "有効なIDP",
+    "expired": "期限切れのIDP",
+    "invalid": "無効なIDP",
+    "not_found": "IDPが見つかりません",
+    "scan_title": "国際運転免許証の照会"
+  },
+  "common": {
+    "apply_now": "申請する",
+    "learn_more": "詳細を見る",
+    "download": "ダウンロード",
+    "track": "追跡する",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "retry": "再試行する",
+    "back": "戻る",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "edit": "編集",
+    "delete": "削除"
+  }
+}

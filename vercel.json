@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "src/app/api/pdf/**": { "maxDuration": 30 },
+    "src/app/api/payments/**": { "maxDuration": 30 },
+    "src/app/api/admin/**": { "maxDuration": 30 }
+  }
+}
