@@ -7,7 +7,7 @@ import * as XLSX from "xlsx";
 interface BulkUploadModalProps {
   isOpen: boolean;
   onClose: () => void;
-  entityType: "blogs" | "pages";
+  entityType: "blogs" | "pages" | "destinations";
   onImportSuccess: () => void;
 }
 
