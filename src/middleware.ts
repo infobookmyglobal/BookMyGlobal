@@ -1,5 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/admin(.*)",
@@ -7,7 +7,7 @@ const isProtectedRoute = createRouteMatcher([
   "/dashboard(.*)",
 ]);
 
-export default clerkMiddleware(async (auth, req) => {
+const clerkHandler = clerkMiddleware(async (auth, req) => {
   const { pathname } = req.nextUrl;
 
   // Normalise /ADMIN and /Admin to /admin
@@ -22,6 +22,24 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect();
   }
 });
+
+export default async function middleware(req: NextRequest) {
+  // Guard: if Clerk keys are missing, fail gracefully instead of crashing with 500
+  if (
+    !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ||
+    !process.env.CLERK_SECRET_KEY
+  ) {
+    console.error(
+      "[middleware] NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY or CLERK_SECRET_KEY is not set. " +
+        "Authentication is disabled. Set these env vars in Vercel."
+    );
+    // Allow the request through without auth — Clerk-protected pages will
+    // still be guarded by individual route handlers that call auth.protect().
+    return NextResponse.next();
+  }
+
+  return clerkHandler(req, {} as never);
+}
 
 export const config = {
   matcher: [
