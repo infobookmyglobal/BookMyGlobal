@@ -288,16 +288,155 @@
   --font-ticket-code: var(--font-dmsans), system-ui, sans-serif;
 }
 
-.bmg {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #0066ff;
-  --primary-foreground: #ffffff;
-  --secondary: #eff6ff;
-  --secondary-foreground: #0052cc;
-  --radius: 0.75rem;
-}
 body.bmg {
   background: #f8fafc;
   color: #0f172a;
 }
+
+/* ── Mobile / Device Optimizations ──────────────────────────────────────── */
+
+/* Safe area padding for notched devices (iPhone X+) */
+.safe-top    { padding-top:    env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-left   { padding-left:   env(safe-area-inset-left); }
+.safe-right  { padding-right:  env(safe-area-inset-right); }
+
+/* Prevent text size inflation on iOS */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Fluid hero typography (avoids huge text on desktop, tiny on mobile) */
+.text-fluid-hero {
+  font-size: clamp(1.75rem, 4vw + 1rem, 3.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.text-fluid-h2 {
+  font-size: clamp(1.4rem, 2.5vw + 0.75rem, 2.5rem);
+  line-height: 1.2;
+}
+
+.text-fluid-h3 {
+  font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.5rem);
+  line-height: 1.35;
+}
+
+/* Minimum touch target sizes (WCAG 2.5.5) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #0066ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth momentum scrolling on iOS */
+.overflow-y-auto,
+.overflow-y-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better tap highlight on mobile */
+a, button {
+  -webkit-tap-highlight-color: rgba(0, 102, 255, 0.12);
+}
+
+/* Fix images on small screens */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent content from overflowing on small screens */
+.container-safe {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Sticky header scroll margin for anchor links */
+[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Responsive grid helpers */
+@media (max-width: 640px) {
+  .grid-cols-auto-sm {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Reduce card padding on mobile */
+  .p-space-lg {
+    padding: 1rem;
+  }
+  
+  .p-space-xl {
+    padding: 1.25rem;
+  }
+}
+
+/* Animation: fade-in-up for sections */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease forwards;
+}
+
+/* Gradient text utility */
+.text-gradient-blue {
+  background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Better button active states */
+button:active,
+a:active {
+  opacity: 0.85;
+}
+
+/* Mobile-safe modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 50;
+}
+
+/* ── Responsive spacing utilities ────────────────────────────────────────── */
+.section-py {
+  padding-top: clamp(3rem, 5vw, 5rem);
+  padding-bottom: clamp(3rem, 5vw, 5rem);
+}
+
+.section-px {
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+}
+
+/* ── Print styles ────────────────────────────────────────────────────────── */
+@media print {
+  header, footer, nav, .no-print { display: none !important; }
+  body { font-size: 12pt; color: #000; background: #fff; }
+  a { color: inherit; text-decoration: none; }
+}
+

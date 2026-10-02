@@ -3,6 +3,19 @@ import { prisma } from "@/lib/prisma";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://bookmyglobal.com";
 
+// Canonical URL path map for pages whose pageKey doesn't match their URL 1:1
+const PAGE_KEY_TO_PATH: Record<string, string> = {
+  home: "",
+  "how-it-works": "how-it-works",
+  "partner-program": "partner-program",
+  "yoga-retreats": "yoga-retreats",
+};
+
+function canonicalPath(pageKey: string): string {
+  if (pageKey in PAGE_KEY_TO_PATH) return PAGE_KEY_TO_PATH[pageKey];
+  return pageKey;
+}
+
 export const DEFAULT_METADATA: Record<string, { title: string; description: string }> = {
   home: {
     title: "BookMyGlobal | Visas, Attestation, Flights, Hotels, Tours & Retreats",
@@ -70,11 +83,11 @@ export const DEFAULT_METADATA: Record<string, { title: string; description: stri
 
 export async function getSeoMetadata(pageKey: string): Promise<Metadata> {
   const defaults = DEFAULT_METADATA[pageKey] || DEFAULT_METADATA.home;
-  
+  const path = canonicalPath(pageKey);
+  const canonicalUrl = `${APP_URL}${path ? `/${path}` : ""}`;
+
   try {
-    const seo = await prisma.seoMeta.findUnique({
-      where: { pageKey },
-    });
+    const seo = await prisma.seoMeta.findUnique({ where: { pageKey } });
 
     if (seo) {
       const title = seo.title || defaults.title;
@@ -82,15 +95,19 @@ export async function getSeoMetadata(pageKey: string): Promise<Metadata> {
       const ogTitle = seo.ogTitle || title;
       const ogDescription = seo.ogDescription || description;
       const ogImg = seo.ogImage || `${APP_URL}/og-home.jpg`;
-      const canonical = seo.canonicalUrl || `${APP_URL}/${pageKey === "home" ? "" : pageKey}`;
+      const canonical = seo.canonicalUrl || canonicalUrl;
 
       return {
-        title: {
-          absolute: title,
-        },
+        title: { absolute: title },
         description,
         alternates: {
           canonical,
+          languages: { "en-IN": canonical },
+        },
+        robots: {
+          index: true,
+          follow: true,
+          googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
         },
         openGraph: {
           type: "website",
@@ -98,13 +115,15 @@ export async function getSeoMetadata(pageKey: string): Promise<Metadata> {
           description: ogDescription,
           url: canonical,
           siteName: "BookMyGlobal",
-          images: [{ url: ogImg, width: 1200, height: 630 }],
+          locale: "en_IN",
+          images: [{ url: ogImg, width: 1200, height: 630, alt: ogTitle }],
         },
         twitter: {
-          card: (seo.twitterCard || "summary_large_image") as any,
+          card: (seo.twitterCard || "summary_large_image") as "summary_large_image" | "summary",
           title: ogTitle,
           description: ogDescription,
           images: [ogImg],
+          site: "@BookMyGlobal",
         },
       };
     }
@@ -112,29 +131,34 @@ export async function getSeoMetadata(pageKey: string): Promise<Metadata> {
     console.error(`Failed to fetch SEO metadata for ${pageKey}:`, err);
   }
 
-  // Fallback metadata
-  const canonical = `${APP_URL}/${pageKey === "home" ? "" : pageKey}`;
+  // Fallback metadata (code defaults — used when DB is unreachable or no record exists)
   return {
-    title: {
-      absolute: defaults.title,
-    },
+    title: { absolute: defaults.title },
     description: defaults.description,
     alternates: {
-      canonical,
+      canonical: canonicalUrl,
+      languages: { "en-IN": canonicalUrl },
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
     },
     openGraph: {
       type: "website",
       title: defaults.title,
       description: defaults.description,
-      url: canonical,
+      url: canonicalUrl,
       siteName: "BookMyGlobal",
-      images: [{ url: `${APP_URL}/og-home.jpg`, width: 1200, height: 630 }],
+      locale: "en_IN",
+      images: [{ url: `${APP_URL}/og-home.jpg`, width: 1200, height: 630, alt: defaults.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: defaults.title,
       description: defaults.description,
       images: [`${APP_URL}/og-home.jpg`],
+      site: "@BookMyGlobal",
     },
   };
 }

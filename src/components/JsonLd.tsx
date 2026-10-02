@@ -16,6 +16,7 @@ function Ld({ data }: { data: unknown }) {
 
 export function OrganizationJsonLd() {
   const phone = process.env.NEXT_PUBLIC_SUPPORT_PHONE;
+  const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
   return (
     <Ld
       data={{
@@ -24,9 +25,62 @@ export function OrganizationJsonLd() {
         name: "BookMyGlobal",
         url: APP_URL,
         logo: `${APP_URL}/logo.png`,
-        ...(phone
-          ? { contactPoint: { "@type": "ContactPoint", telephone: phone, contactType: "customer service", areaServed: "IN" } }
-          : {}),
+        sameAs: [
+          "https://www.instagram.com/bookmyglobal",
+          "https://www.facebook.com/bookmyglobal",
+        ],
+        ...(phone ? { contactPoint: { "@type": "ContactPoint", telephone: phone, contactType: "customer service", areaServed: "IN", availableLanguage: ["en", "hi"] } } : {}),
+        ...(email ? { email } : {}),
+      }}
+    />
+  );
+}
+
+export function LocalBusinessJsonLd() {
+  const phone = process.env.NEXT_PUBLIC_SUPPORT_PHONE;
+  const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
+  return (
+    <Ld
+      data={{
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name: "BookMyGlobal",
+        description: "One-stop travel services platform for Indian travellers: visa assistance, MEA attestation, flights, hotels, tours, and yoga retreats in Rishikesh.",
+        url: APP_URL,
+        logo: `${APP_URL}/logo.png`,
+        image: `${APP_URL}/og-home.jpg`,
+        priceRange: "₹₹",
+        areaServed: { "@type": "Country", name: "India" },
+        serviceType: ["Visa Assistance", "MEA Attestation", "Flight Booking", "Hotel Booking", "Yoga Retreats"],
+        ...(phone ? { telephone: phone } : {}),
+        ...(email ? { email } : {}),
+        openingHoursSpecification: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "09:00",
+          closes: "21:00",
+        },
+      }}
+    />
+  );
+}
+
+export function SiteLinksSearchBoxJsonLd() {
+  return (
+    <Ld
+      data={{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        url: APP_URL,
+        name: "BookMyGlobal",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${APP_URL}/services?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
       }}
     />
   );
@@ -43,6 +97,7 @@ export function ServiceJsonLd({ name, description, path }: { name: string; descr
         url: `${APP_URL}${path}`,
         provider: { "@type": "Organization", name: "BookMyGlobal", url: APP_URL },
         areaServed: "IN",
+        serviceType: name,
       }}
     />
   );
@@ -102,6 +157,46 @@ export function WebPageJsonLd({
         url: `${APP_URL}${urlPath}`,
         publisher: { "@type": "Organization", name: "BookMyGlobal", url: APP_URL },
         ...(dateModified ? { dateModified } : {}),
+        inLanguage: "en-IN",
+      }}
+    />
+  );
+}
+
+export function ArticleJsonLd({
+  title,
+  description,
+  urlPath,
+  imageUrl,
+  datePublished,
+  dateModified,
+  authorName,
+}: {
+  title: string;
+  description: string;
+  urlPath: string;
+  imageUrl?: string;
+  datePublished: string;
+  dateModified?: string;
+  authorName?: string;
+}) {
+  return (
+    <Ld
+      data={{
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: title,
+        description,
+        url: `${APP_URL}${urlPath}`,
+        image: imageUrl || `${APP_URL}/og-home.jpg`,
+        datePublished,
+        ...(dateModified ? { dateModified } : {}),
+        author: { "@type": "Organization", name: authorName || "BookMyGlobal", url: APP_URL },
+        publisher: {
+          "@type": "Organization",
+          name: "BookMyGlobal",
+          logo: { "@type": "ImageObject", url: `${APP_URL}/logo.png` },
+        },
         inLanguage: "en-IN",
       }}
     />

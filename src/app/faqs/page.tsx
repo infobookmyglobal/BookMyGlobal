@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CtaBand, Container, PageHero } from "@/components/site/ui";
 import { HomeFaq } from "@/components/home/HomeFaq";
-import { FaqJsonLd } from "@/components/JsonLd";
+import { BreadcrumbJsonLd, FaqJsonLd, WebPageJsonLd } from "@/components/JsonLd";
 import { prisma } from "@/lib/prisma";
 import { getSeoMetadata } from "@/lib/seo";
 import { renderEmphasis } from "@/lib/cms-text";
@@ -48,16 +48,22 @@ export default async function FaqsPage() {
 
   return (
     <>
+      <WebPageJsonLd
+        name="FAQs | BookMyGlobal"
+        description="Answers to common questions about visas, attestation, travel bookings and how BookMyGlobal works."
+        urlPath="/faqs"
+      />
+      <BreadcrumbJsonLd items={[{ name: "FAQs", path: "/faqs" }]} />
+      <FaqJsonLd faqs={items.map((f) => ({ question: f.q, answer: f.a }))} />
       <Header />
       <main className="bg-surface">
-        <PageHero 
-          eyebrow="FAQs &amp; Guidance" 
-          title={renderEmphasis("Questions, *answered*.")} 
-          intro="If you cannot find what you are looking for, send our direct concierge a message and an advisor will reply within 2 hours." 
+        <PageHero
+          eyebrow="FAQs & Guidance"
+          title={renderEmphasis("Questions, *answered*.")}
+          intro="If you cannot find what you are looking for, send our direct concierge a message and an advisor will reply within 2 hours."
         />
         <section className="bg-surface pb-space-2xl">
           <Container narrow>
-            <FaqJsonLd faqs={items.map((f) => ({ question: f.q, answer: f.a }))} />
             <HomeFaq items={items} />
           </Container>
         </section>

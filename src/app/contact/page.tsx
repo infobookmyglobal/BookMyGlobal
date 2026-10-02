@@ -23,7 +23,7 @@ export default async function ContactPage({
   return (
     <>
       <Header />
-      <main className="bg-surface-container-low pb-space-2xl pt-36">
+      <main className="bg-surface-container-low pb-space-2xl pt-24 sm:pt-32 lg:pt-36">
         <Container>
           <div className="grid gap-space-xl lg:grid-cols-[1fr_1.4fr]">
             <div className="space-y-space-lg">

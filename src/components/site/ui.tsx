@@ -63,14 +63,14 @@ export function PageHero({
   eyebrow, title, intro, children, breadcrumb,
 }: { eyebrow?: string; title: ReactNode; intro?: ReactNode; children?: ReactNode; breadcrumb?: { label: string; href?: string }[] }) {
   return (
-    <section className="relative overflow-hidden bg-white border-b border-slate-100 pb-12 pt-16 lg:pb-16 lg:pt-20">
+    <section className="relative overflow-hidden bg-white border-b border-slate-100 pb-10 pt-20 sm:pb-12 sm:pt-24 lg:pb-16 lg:pt-28">
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-blue-50/60 to-transparent opacity-70" />
       <Container className="relative">
         {breadcrumb && (
-          <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500">
+          <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs font-semibold text-slate-500">
             <Link href="/" className="hover:text-blue-600">Home</Link>
             {breadcrumb.map((b) => (
-              <span key={b.label} className="flex items-center gap-2">
+              <span key={b.label} className="flex items-center gap-1.5 sm:gap-2">
                 <span aria-hidden className="text-slate-300">/</span>
                 {b.href ? <Link href={b.href} className="hover:text-blue-600">{b.label}</Link> : <span className="text-slate-900 font-bold">{b.label}</span>}
               </span>
@@ -78,13 +78,14 @@ export function PageHero({
           </nav>
         )}
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-        <h1 className="mt-2 max-w-3xl text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">{title}</h1>
+        <h1 className="mt-2 max-w-3xl text-fluid-hero font-extrabold tracking-tight text-slate-900">{title}</h1>
         {intro && <p className="mt-3 max-w-2xl text-base sm:text-lg text-slate-600 leading-relaxed">{intro}</p>}
-        {children && <div className="mt-6">{children}</div>}
+        {children && <div className="mt-5 sm:mt-6 flex flex-wrap gap-3">{children}</div>}
       </Container>
     </section>
   );
 }
+
 
 export function PrimaryLink({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
   return (
