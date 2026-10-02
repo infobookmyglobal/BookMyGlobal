@@ -28,10 +28,10 @@ import { DesktopAuth, MobileAuth } from "@/components/header/AuthenticatedAction
 
 export const NAV_LINKS = [
   { href: "/services/visa-assistance", label: "Visas" },
-  { href: "/services/mea-attestation", label: "Attestation" },
+  { href: "/services/attestation", label: "Attestation" },
   { href: "/yoga-retreats", label: "Yoga Retreats", badge: "Rishikesh" },
-  { href: "/services/flight-booking", label: "Flights & Stays" },
-  { href: "/services/tours-activities", label: "Tours & Combos", hasPercent: true },
+  { href: "/services/flights", label: "Flights & Stays" },
+  { href: "/services/tours", label: "Tours & Combos", hasPercent: true },
   { href: "/community", label: "Community" },
   { href: "/blog", label: "Journal" },
 ];
@@ -407,10 +407,10 @@ export function Header() {
                 {[
                   { label: "Schengen Visa", href: "/services/visa-assistance?country=Switzerland" },
                   { label: "Dubai E-Visa", href: "/services/visa-assistance?country=UAE" },
-                  { label: "MEA Apostille", href: "/services/mea-attestation" },
+                  { label: "MEA Apostille", href: "/services/attestation" },
                   { label: "Rishikesh Yoga Retreat", href: "/yoga-retreats" },
-                  { label: "Thailand Tours", href: "/services/tours-activities" },
-                  { label: "Bali Packages", href: "/services/tours-activities" },
+                  { label: "Thailand Tours", href: "/services/tours" },
+                  { label: "Bali Packages", href: "/services/tours" },
                 ].map((item) => (
                   <Link
                     key={item.label}

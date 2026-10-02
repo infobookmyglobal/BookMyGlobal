@@ -67,7 +67,7 @@ const POPULAR_DESTINATIONS = [
     badge: "Fast Track",
     tag: "Island Tours",
     image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=cover&w=800&q=80",
-    href: "/services/tours-activities",
+    href: "/services/tours",
   },
   {
     name: "Singapore",
@@ -87,7 +87,7 @@ const TRENDING_SERVICES = [
     price: "from ₹2,499",
   },
   {
-    slug: "mea-attestation",
+    slug: "attestation",
     badge: "Govt Verified",
     location: "MEA Delhi & State Secretariats",
     price: "from ₹1,299",
@@ -99,7 +99,7 @@ const TRENDING_SERVICES = [
     price: "from ₹14,999",
   },
   {
-    slug: "tours-activities",
+    slug: "tours",
     badge: "Popular Combo",
     location: "Worldwide · 10,000+ Experiences",
     price: "from ₹999",
@@ -108,19 +108,19 @@ const TRENDING_SERVICES = [
 
 const RECOMMENDED_PACKAGES = [
   {
-    slug: "flight-booking",
+    slug: "flights",
     badge: "Best Rate",
     location: "International Routes",
     price: "Zero Booking Fee",
   },
   {
-    slug: "hotel-booking",
+    slug: "hotels",
     badge: "Handpicked",
     location: "Worldwide 4 & 5 Star",
     price: "Direct Vouchers",
   },
   {
-    slug: "cruise-packages",
+    slug: "cruises",
     badge: "Luxury",
     location: "Singapore, Dubai & Europe",
     price: "from ₹32,000",
@@ -252,11 +252,11 @@ export default async function HomePage() {
               {[
                 { label: "All Services", href: "#popular-destinations" },
                 { label: "Visa Assistance", href: "/services/visa-assistance" },
-                { label: "MEA Attestation", href: "/services/mea-attestation" },
+                { label: "MEA Attestation", href: "/services/attestation" },
                 { label: "Yoga Retreats", href: "/yoga-retreats" },
-                { label: "Flights & Stays", href: "/services/flight-booking" },
-                { label: "Tours & Combos", href: "/services/tours-activities" },
-                { label: "Cruises", href: "/services/cruise-packages" },
+                { label: "Flights & Stays", href: "/services/flights" },
+                { label: "Tours & Combos", href: "/services/tours" },
+                { label: "Cruises", href: "/services/cruises" },
                 { label: "Community", href: "/community" },
               ].map((tab, idx) => (
                 <Link

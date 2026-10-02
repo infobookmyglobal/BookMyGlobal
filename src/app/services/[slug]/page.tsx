@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Check, Info } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -8,18 +8,21 @@ import { Container, CtaBand, Eyebrow, GhostLink, IndiaTag, PageHero, PrimaryLink
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { BreadcrumbJsonLd, FaqJsonLd, ServiceJsonLd } from "@/components/JsonLd";
-import { DETAIL_SERVICES, getService } from "@/config/services";
+import { DETAIL_SERVICES, getService, SLUG_ALIASES } from "@/config/services";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://bookmyglobal.com";
 
 export function generateStaticParams() {
-  return DETAIL_SERVICES.map((s) => ({ slug: s.slug }));
+  const slugs = DETAIL_SERVICES.map((s) => s.slug);
+  const aliases = Object.keys(SLUG_ALIASES);
+  return Array.from(new Set([...slugs, ...aliases])).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const s = getService(slug);
-  if (!s?.detail) return { title: "Service not found" };
+  if (!s) return { title: "Service not found" };
+  if (!s.detail) return { title: `${s.title} | BookMyGlobal` };
   const title = `${s.title} | BookMyGlobal`;
   return {
     title,
@@ -32,8 +35,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const s = getService(slug);
-  if (!s?.detail) notFound();
+  if (!s) notFound();
+
+  // If service has its own dedicated top-level route (e.g. /yoga-retreats or /community)
+  if (!s.detail) {
+    redirect(s.href);
+  }
+
   const d = s.detail;
+
 
   const startHref =
     s.enquiryType === "VISA" || s.enquiryType === "ATTESTATION"

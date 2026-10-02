@@ -356,5 +356,19 @@ export const SERVICES: Service[] = [
   },
 ];
 
-export const getService = (slug: string) => SERVICES.find((s) => s.slug === slug);
+export const SLUG_ALIASES: Record<string, string> = {
+  "mea-attestation": "attestation",
+  "flight-booking": "flights",
+  "tours-activities": "tours",
+  "hotel-booking": "hotels",
+  "cruise-packages": "cruises",
+  "bus": "international-bus",
+};
+
+export const getService = (slug: string) => {
+  const normalized = SLUG_ALIASES[slug] || slug;
+  return SERVICES.find((s) => s.slug === normalized);
+};
+
 export const DETAIL_SERVICES = SERVICES.filter((s) => s.detail);
+
