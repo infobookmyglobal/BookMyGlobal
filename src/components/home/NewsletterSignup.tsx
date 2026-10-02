@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export function NewsletterSignup() {
   const [email, setEmail] = useState("");
@@ -28,27 +29,33 @@ export function NewsletterSignup() {
   }
 
   if (state === "done") {
-    return <p className="font-label-md text-on-tertiary-fixed-variant">Thanks, you are on the list.</p>;
+    return (
+      <div className="flex items-center gap-2 text-emerald-600 font-bold text-sm">
+        <CheckCircle2 className="h-4 w-4" />
+        <span>You're subscribed to global travel updates!</span>
+      </div>
+    );
   }
   return (
-    <form onSubmit={submit} className="flex w-full items-center gap-3 md:w-auto">
+    <form onSubmit={submit} className="flex w-full items-center gap-2 max-w-md">
       <input
         type="email"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Your email"
+        placeholder="Enter your email address"
         aria-label="Email address"
-        className="w-full rounded-full bg-surface-container-lowest px-4 py-2.5 font-body-sm text-body-sm text-primary placeholder:text-outline focus:outline-none md:w-64"
+        className="w-full h-12 rounded-full border border-slate-200 bg-white px-5 text-sm font-medium text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 shadow-sm"
       />
       <button
         type="submit"
         disabled={state === "sending"}
-        className="shrink-0 rounded-full bg-primary px-5 py-2.5 font-label-md text-on-primary transition-colors hover:bg-surface-tint disabled:opacity-60"
+        className="press shrink-0 h-12 rounded-full bg-blue-600 px-6 text-sm font-bold text-white shadow-cta hover:bg-blue-700 disabled:opacity-60 transition-all flex items-center gap-1.5"
       >
-        {state === "sending" ? "…" : "Subscribe"}
+        <span>{state === "sending" ? "..." : "Subscribe"}</span>
+        <ArrowRight className="h-4 w-4" />
       </button>
-      {state === "error" && <span className="text-error font-label-sm">Try again</span>}
+      {state === "error" && <span className="text-red-500 text-xs font-semibold">Please try again</span>}
     </form>
   );
 }

@@ -1,43 +1,46 @@
 import Link from "next/link";
+import { Globe } from "lucide-react";
 
-/** Jharokha-arch + flight-path mark, from the BookMyGlobal logo. */
-export function LogoMark({ className = "h-9 w-9", tone = "dark" }: { className?: string; tone?: "dark" | "light" }) {
-  const trace = tone === "dark" ? "#FAF7F2" : "#141B2F";
+export function LogoMark({ className = "h-8 w-8", tone = "light" }: { className?: string; tone?: "dark" | "light" }) {
+  const isDark = tone === "dark";
   return (
-    <svg viewBox="0 0 56 44" className={className} fill="none" aria-hidden="true">
-      <path d="M12 40V24C12 15.163 19.163 8 28 8C36.837 8 44 15.163 44 24V40" stroke="#E9A23B" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M18 40V26C18 20.477 22.477 16 28 16C33.523 16 38 20.477 38 26V40" stroke="#0E8F86" strokeWidth="1.5" strokeDasharray="2 3" />
-      <circle cx="28" cy="26" r="4.5" fill="#E9A23B" />
-      <path d="M6 32C14 30 24 20 38 14C46 10 52 18 42 28" stroke={trace} strokeWidth="1.2" strokeDasharray="2 2" opacity="0.6" />
-      <circle cx="42" cy="28" r="2" fill={trace} />
-    </svg>
+    <div className={`relative flex items-center justify-center rounded-xl transition-transform hover:scale-105 ${className} ${
+      isDark ? "bg-blue-600 text-white shadow-md shadow-blue-500/20" : "bg-blue-600 text-white shadow-sm"
+    }`}>
+      <Globe className="h-5 w-5 animate-pulse" />
+      <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-sky-400 ring-2 ring-white" />
+    </div>
   );
 }
 
 export function Logo({
-  tone = "dark",
+  tone = "light",
   className = "",
   withTagline = false,
 }: {
-  /** "dark" = shown on a dark background (ivory text); "light" = on a light background (ink text) */
   tone?: "dark" | "light";
   className?: string;
   withTagline?: boolean;
 }) {
-  const text = tone === "dark" ? "text-[#FAF7F2]" : "text-primary-container";
+  const isDark = tone === "dark";
+  const textColor = isDark ? "text-white" : "text-slate-900";
+  const subColor = isDark ? "text-blue-200" : "text-slate-500";
+
   return (
-    <Link href="/" aria-label="BookMyGlobal home" className={`inline-flex items-center gap-2 ${className}`}>
-      <LogoMark tone={tone} className="h-8 w-9" />
-      <span className="flex flex-col leading-none">
-        <span className={`font-headline-sm text-[1.4rem] font-semibold tracking-tight ${text}`}>
-          Book<span className="text-[#E9A23B]">My</span>Global
+    <Link href="/" aria-label="BookMyGlobal home" className={`inline-flex items-center gap-2.5 group ${className}`}>
+      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-500 text-white shadow-[0_4px_12px_rgba(0,102,255,0.28)] transition-transform duration-200 group-hover:scale-105">
+        <Globe className="h-5 w-5" />
+      </div>
+      <div className="flex flex-col leading-none">
+        <span className={`text-[1.25rem] font-black tracking-tight ${textColor} transition-colors`}>
+          Book<span className="text-blue-600">My</span>Global
         </span>
-        {withTagline && (
-          <span className="mt-1 font-eyebrow text-[8.5px] font-bold uppercase tracking-[0.22em] text-on-primary-container">
-            Curated expeditions
+        {withTagline ? (
+          <span className={`mt-0.5 text-[9px] font-bold uppercase tracking-[0.16em] ${subColor}`}>
+            Global Travel Concierge
           </span>
-        )}
-      </span>
+        ) : null}
+      </div>
     </Link>
   );
 }

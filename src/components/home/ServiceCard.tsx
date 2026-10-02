@@ -1,100 +1,121 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, CheckCircle2, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, MapPin, Zap, ShieldCheck, Heart, Sparkles, Award } from "lucide-react";
 import type { Service } from "@/config/services";
 import { ServiceIcon } from "@/components/ServiceIcon";
 import { IndiaTag } from "@/components/site/ui";
 
 type Variant = "large" | "medium" | "small" | "dark" | "teal";
 
-export function ServiceCard({ service, variant = "medium", className = "" }: { service: Service; variant?: Variant; className?: string }) {
-  const dark = variant === "dark";
-  const teal = variant === "teal";
-  const isLarge = variant === "large";
-  const small = variant === "small";
-
-  const bg = dark 
-    ? "bg-primary-container text-on-primary border-primary-fixed-dim/20 shadow-xl" 
-    : teal 
-      ? "bg-surface-container-low/90 border-tertiary-fixed-dim/40" 
-      : "bg-surface-container-lowest border-surface-container-high";
-
-  const kicker = dark ? "text-secondary-container" : "text-secondary";
-  const title = dark ? "text-on-primary" : "text-primary";
-  const body = dark ? "text-on-primary-container" : "text-on-surface-variant";
-
-  // Service-specific dynamic perks
-  const perks = service.detail?.included?.slice(0, 3) || [];
+export function ServiceCard({ 
+  service, 
+  variant = "medium", 
+  className = "",
+  badge = "Trending",
+  price = "from ₹1,499",
+  location = "Global Concierge"
+}: { 
+  service: Service; 
+  variant?: Variant; 
+  className?: string;
+  badge?: string;
+  price?: string;
+  location?: string;
+}) {
+  const [liked, setLiked] = useState(false);
+  const perks = service.detail?.included?.slice(0, 2) || [];
 
   return (
-    <Link
-      href={service.href}
-      className={`group relative flex flex-col justify-between overflow-hidden rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:border-secondary hover:shadow-[0_20px_40px_-15px_rgba(20,27,47,0.12)] ${bg} ${
-        small ? "p-5" : "p-7"
-      } ${className}`}
-    >
-      {/* Ambient Top Glow on Hover */}
-      <div 
-        aria-hidden 
-        className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-secondary-container/15 blur-2xl transition-opacity duration-300 group-hover:opacity-100" 
-      />
-
-      <div className="relative z-10 space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className={`font-ticket-code text-[11px] font-bold uppercase tracking-widest ${kicker}`}>
-              {dark ? `${service.pillar} · Direct Flagship` : `${service.pillar} · ${service.kicker}`}
-            </span>
-            {dark && (
-              <span className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 font-ticket-code text-[8px] uppercase tracking-wider text-secondary-container">
-                <Sparkles className="h-2.5 w-2.5" />
-                Rishikesh
-              </span>
-            )}
+    <div className={`group relative h-full flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-card hover:shadow-card-lg transition-all duration-300 ${className}`}>
+      
+      {/* 16/10 Aspect Image Area */}
+      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-blue-50/50">
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/10 to-sky-500/10 mix-blend-multiply z-10 pointer-events-none" />
+        
+        {/* Placeholder / Service visual */}
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-500/5 via-blue-600/10 to-slate-900/15 group-hover:scale-105 transition-transform duration-500">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-md text-blue-600">
+            <ServiceIcon kind={service.icon} className="h-7 w-7" />
           </div>
+        </div>
+
+        {/* Top-Left Badge */}
+        <span className="absolute start-3 top-3 z-20 rounded-full bg-blue-600 px-3 py-1 text-[11px] font-bold text-white shadow-sm">
+          {badge}
+        </span>
+
+        {/* Top-Right Wishlist / Heart Button */}
+        <button
+          type="button"
+          aria-label="Save to wishlist"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setLiked(!liked);
+          }}
+          className="press absolute end-2 top-2 z-20 grid size-9 place-items-center rounded-full bg-white/85 backdrop-blur-md shadow-sm hover:bg-white text-slate-700 transition-colors"
+        >
+          <Heart className={`h-4 w-4 transition-colors ${liked ? "fill-red-500 text-red-500 heart-pop" : "text-slate-600"}`} />
+        </button>
+      </div>
+
+      {/* Content Area */}
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        
+        {/* Category & India Tag */}
+        <div className="mb-1.5 flex items-center justify-between gap-2">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-blue-600">
+            {service.pillar} · {service.kicker}
+          </p>
           {service.indiaOnly && <IndiaTag />}
         </div>
 
-        <h3 className={`${isLarge ? "font-headline-md text-2xl lg:text-3xl" : small ? "font-title-md text-base" : "font-headline-sm text-xl"} font-bold tracking-tight ${title}`}>
-          {service.title}
-        </h3>
+        {/* Title */}
+        <Link href={service.href} className="group-hover:text-blue-600 transition-colors">
+          <h3 className="line-clamp-2 text-[15px] font-bold text-slate-900 leading-snug">
+            {service.title}
+          </h3>
+        </Link>
 
-        <p className={`${small ? "font-body-sm text-xs" : "font-body-md text-sm"} leading-relaxed ${body}`}>
-          {service.summary}
+        {/* Location tag */}
+        <p className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+          <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+          <span className="truncate">{location}</span>
         </p>
 
-        {/* Feature perks for large/medium cards */}
-        {!small && perks.length > 0 && (
-          <ul className="space-y-1.5 pt-2">
-            {perks.map((p, i) => (
-              <li key={i} className={`flex items-start gap-2 text-[12px] ${dark ? "text-on-primary-container" : "text-on-surface-variant"}`}>
-                <CheckCircle2 className={`h-3.5 w-3.5 shrink-0 mt-0.5 ${dark ? "text-secondary-container" : "text-secondary"}`} />
-                <span className="line-clamp-1">{p}</span>
-              </li>
-            ))}
-          </ul>
-        )}
+        {/* Feature Tags Row */}
+        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5">
+          <span className="inline-flex items-center gap-1 text-[11.5px] font-semibold text-slate-600">
+            <Zap className="h-3.5 w-3.5 text-blue-600" />
+            <span>Instant Quote</span>
+          </span>
+          <span className="inline-flex items-center gap-1 text-[11.5px] font-semibold text-emerald-700">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            <span>MEA Verified</span>
+          </span>
+        </div>
+
+        {/* Price & Action Footer */}
+        <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-3.5 mt-4">
+          <div>
+            <p className="text-xs text-slate-400 font-medium">starting from</p>
+            <p className="text-sm font-extrabold text-slate-900">{price}</p>
+          </div>
+          
+          <Link
+            href={service.href}
+            className="press inline-flex items-center gap-1 rounded-full bg-blue-50 px-3.5 py-1.5 text-xs font-bold text-blue-600 hover:bg-blue-600 hover:text-white transition-colors"
+          >
+            <span>Explore</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
       </div>
 
-      <div className={`relative z-10 flex items-center justify-between ${small ? "mt-4" : "mt-6"} border-t ${dark ? "border-white/10" : "border-surface-container-high"} pt-4`}>
-        <span className={`flex h-10 w-10 items-center justify-center rounded-2xl transition-all duration-300 group-hover:scale-105 ${
-          dark 
-            ? "bg-white/10 text-secondary-container group-hover:bg-secondary-container group-hover:text-on-secondary-container" 
-            : "bg-surface-container text-secondary group-hover:bg-secondary-container group-hover:text-on-secondary-container"
-        }`}>
-          <ServiceIcon kind={service.icon} className="h-5 w-5" />
-        </span>
-
-        <span className={`inline-flex items-center gap-1 font-label-md text-sm font-semibold transition-all ${
-          dark ? "text-secondary-container group-hover:text-secondary-fixed" : "text-secondary group-hover:text-primary"
-        }`}>
-          <span>Explore details</span>
-          {small ? (
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          ) : (
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          )}
-        </span>
-      </div>
-    </Link>
+    </div>
   );
 }

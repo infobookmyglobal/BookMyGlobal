@@ -1,38 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   ArrowRight, 
   MapPin, 
-  Leaf, 
   ShieldCheck, 
   Sparkles, 
   Star, 
   CheckCircle2, 
-  FileText, 
-  Clock, 
-  Globe2, 
   Award, 
-  HeartHandshake, 
   Zap,
   ArrowUpRight,
-  PlaneTakeoff,
-  Users
+  Receipt,
+  Lock,
+  Headphones,
+  CalendarCheck,
+  Compass,
+  FileCheck,
+  MessageCircle
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Container, Eyebrow, Em, PrimaryLink, GhostLink, Stamp, SectionHeader } from "@/components/site/ui";
-import { Photo } from "@/components/site/Photo";
 import { ServiceCard } from "@/components/home/ServiceCard";
 import { PlanBar } from "@/components/home/PlanBar";
-import { NewsletterSignup } from "@/components/home/NewsletterSignup";
 import { EnquiryForm } from "@/components/home/EnquiryForm";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { getPageCms } from "@/lib/cms";
-import { renderEmphasis } from "@/lib/cms-text";
-import { prisma } from "@/lib/prisma";
 import { getSeoMetadata } from "@/lib/seo";
 import { getService } from "@/config/services";
-import { IMAGES } from "@/config/images";
 import { FaqJsonLd } from "@/components/JsonLd";
 
 export const revalidate = 300;
@@ -41,60 +36,100 @@ export async function generateMetadata(): Promise<Metadata> {
   return getSeoMetadata("home");
 }
 
-const DESTINATIONS = [
-  "Switzerland (Schengen)", 
-  "United Kingdom", 
-  "United Arab Emirates", 
-  "Japan", 
-  "Rishikesh Sanctuary", 
-  "Singapore", 
-  "Thailand", 
-  "United States", 
-  "Maldives", 
-  "Vietnam"
-];
-
-const ACCREDITATIONS = [
-  { name: "MEA Apostille Verified", label: "Ministry of External Affairs India" },
-  { name: "Consulate Registered", label: "Direct Embassy Liaisons" },
-  { name: "IATA Partner Network", label: "Global Flight Systems" },
-  { name: "Yoga Alliance Rishikesh", label: "Certified Ashram Operations" },
-  { name: "Viator Partner Hub", label: "Curated World Experiences" },
-  { name: "256-Bit Encrypted Portal", label: "Document Vault Security" },
-];
-
-const POPULAR_DESTINATION_CARDS = [
+const POPULAR_DESTINATIONS = [
   {
-    country: "Switzerland & Schengen",
-    flag: "🇨🇭",
-    time: "10-15 Days",
+    name: "Switzerland & Schengen",
+    country: "Europe (29 Countries)",
+    badge: "10-15 Days",
     tag: "High Demand",
-    desc: "Single visa for 29 European countries with complete itinerary and cover letter curation.",
+    image: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=cover&w=800&q=80",
     href: "/services/visa-assistance?country=Switzerland",
   },
   {
+    name: "Dubai & Abu Dhabi",
     country: "United Arab Emirates",
-    flag: "🇦🇪",
-    time: "48-72 Hours",
+    badge: "48-72 Hours",
     tag: "Express E-Visa",
-    desc: "Fast 30 or 60 days tourist, family & business e-visas with instant approval tracking.",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=cover&w=800&q=80",
     href: "/services/visa-assistance?country=UAE",
   },
   {
-    country: "United Kingdom",
-    flag: "🇬🇧",
-    time: "15-20 Days",
-    tag: "Standard & Priority",
-    desc: "Standard visitor, business and student visa guidance with biometric appointment setup.",
-    href: "/services/visa-assistance?country=UK",
+    name: "Rishikesh Sanctuary",
+    country: "Uttarakhand, India",
+    badge: "Direct Operator",
+    tag: "Ganga Ashram",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=cover&w=800&q=80",
+    href: "/yoga-retreats",
   },
   {
-    country: "Japan",
-    flag: "🇯🇵",
-    time: "7-10 Days",
-    tag: "Single & Multiple",
-    desc: "Tourism and conference applications with strict document compliance and itinerary review.",
-    href: "/services/visa-assistance?country=Japan",
+    name: "Bali & Ubud",
+    country: "Indonesia",
+    badge: "Fast Track",
+    tag: "Island Tours",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=cover&w=800&q=80",
+    href: "/services/tours-activities",
+  },
+  {
+    name: "Singapore",
+    country: "Southeast Asia",
+    badge: "3-5 Days",
+    tag: "Attractions Pass",
+    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=cover&w=800&q=80",
+    href: "/services/visa-assistance?country=Singapore",
+  },
+];
+
+const TRENDING_SERVICES = [
+  {
+    slug: "visa-assistance",
+    badge: "Trending",
+    location: "Global · 60+ Embassies",
+    price: "from ₹2,499",
+  },
+  {
+    slug: "mea-attestation",
+    badge: "Govt Verified",
+    location: "MEA Delhi & State Secretariats",
+    price: "from ₹1,299",
+  },
+  {
+    slug: "yoga-retreats",
+    badge: "Direct Operator",
+    location: "Rishikesh, Himalayas",
+    price: "from ₹14,999",
+  },
+  {
+    slug: "tours-activities",
+    badge: "Popular Combo",
+    location: "Worldwide · 10,000+ Experiences",
+    price: "from ₹999",
+  },
+];
+
+const RECOMMENDED_PACKAGES = [
+  {
+    slug: "flight-booking",
+    badge: "Best Rate",
+    location: "International Routes",
+    price: "Zero Booking Fee",
+  },
+  {
+    slug: "hotel-booking",
+    badge: "Handpicked",
+    location: "Worldwide 4 & 5 Star",
+    price: "Direct Vouchers",
+  },
+  {
+    slug: "cruise-packages",
+    badge: "Luxury",
+    location: "Singapore, Dubai & Europe",
+    price: "from ₹32,000",
+  },
+  {
+    slug: "bus-booking",
+    badge: "Cross-Border",
+    location: "Europe, UK & Asia",
+    price: "Instant E-Ticket",
   },
 ];
 
@@ -104,662 +139,578 @@ const REVIEWS = [
     location: "Bengaluru → Zurich",
     service: "Schengen Visa & MEA Apostille",
     rating: 5,
-    quote: "Got both my medical degree apostille and Switzerland visa done in one go. Transparent quotes and no endless chasing. Outstanding service.",
+    quote: "Got both my medical degree apostille and Switzerland visa done seamlessly. Transparent quotes, zero hidden charges, and outstanding proactive status updates.",
   },
   {
     name: "Ananya Sharma",
     location: "Mumbai → Rishikesh",
     service: "7-Day Yoga Awakening",
     rating: 5,
-    quote: "The retreat along the Ganges was transformative. Because BookMyGlobal manages it directly, every detail from pickup to master classes was flawless.",
+    quote: "The retreat along the Ganges was truly life-changing. Because BookMyGlobal operates it directly, every detail from station pickup to master sessions was flawless.",
   },
   {
     name: "Vikramaditya Rao",
     location: "Delhi → Dubai",
-    service: "UAE Embassy Attestation & Flights",
+    service: "UAE Commercial Attestation & Flights",
     rating: 5,
-    quote: "Commercial documents attested and delivered back via insured courier within 6 days. Highly professional team.",
+    quote: "Commercial agreements legalised by UAE Embassy and delivered back via insured courier within 5 working days. Unmatched professionalism.",
   },
 ];
 
-function readTime(html: string) {
-  const words = html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
-  return `${Math.max(1, Math.ceil(words / 225))} min read`;
-}
-
 const HOME_FAQS = [
   { 
-    q: "Who runs the yoga retreats?", 
-    a: "BookMyGlobal runs the Rishikesh retreats directly. They are not resold from another provider. That means one unified team coordinates your journey from intake to your final morning practice along the Ganges." 
+    q: "How does BookMyGlobal guarantee no hidden fees?", 
+    a: "We provide upfront itemized pricing including government consular fees, MEA administrative charges, and service fees before you commit. What you see is exactly what you pay." 
   },
   { 
-    q: "Is attestation only for Indian citizens?", 
-    a: "Our MEA apostille and embassy legalisation services are specifically designed for documents issued in India (educational degrees, marriage/birth certificates, commercial resolutions). Tell us your destination and we will confirm the exact authentication protocol." 
+    q: "Who runs the Rishikesh yoga retreats?", 
+    a: "BookMyGlobal operates our Rishikesh Ganga retreats directly — not as an affiliate or reseller. That means our dedicated resident team coordinates your accommodation, daily yogic practices, ayurvedic meals, and excursions." 
   },
   { 
-    q: "How do your visa assistance services work?", 
-    a: "We review your eligibility, generate a tailored document checklist, verify all application forms for errors, guide you through consulate appointment scheduling, and provide continuous status updates until your decision is returned." 
+    q: "Is MEA Apostille & Attestation valid globally?", 
+    a: "Yes. Our apostilles are issued directly through Ministry of External Affairs (MEA), Government of India for Hague Convention member countries, and embassy attestation for non-Hague nations (UAE, Qatar, Kuwait, etc.)." 
   },
   { 
-    q: "Can I manage multiple services under one account?", 
-    a: "Yes! Your BookMyGlobal account keeps all your visas, attested documents, flight tickets, hotel vouchers, and retreat schedules organized securely in one encrypted dashboard." 
+    q: "Can I manage all my bookings in one single account?", 
+    a: "Yes! Your encrypted dashboard keeps your visa files, attested certificates, flight PNRs, hotel vouchers, and retreat schedules organized securely in one portal." 
   },
 ];
 
 export default async function HomePage() {
-  const cms = await getPageCms("home");
-  const t = cms.t;
-
-  const posts = await prisma.blog
-    .findMany({ where: { status: "PUBLISHED" }, orderBy: { publishedAt: "desc" }, take: 3 })
-    .catch(() => []);
-
-  const STAT_DEFAULTS = [
-    { num: "9", label: "Integrated Travel & Paperwork Verticals" },
-    { num: "99.4%", label: "First-Time Visa Submission Accuracy" },
-    { num: "5,000+", label: "Indian Travellers & Global Seekers" },
-    { num: "100%", label: "Directly Operated Rishikesh Retreats" },
-  ];
-  const stats = STAT_DEFAULTS.map((d, i) => ({ 
-    num: t(`stat_${i + 1}_num`, d.num), 
-    label: t(`stat_${i + 1}_label`, d.label) 
-  })).filter((s) => s.num);
-
   const S = (slug: string) => getService(slug)!;
 
   return (
     <>
       <Header />
       <FaqJsonLd faqs={HOME_FAQS.map(f => ({ question: f.q, answer: f.a }))} />
-      <main className="bg-surface overflow-hidden">
+      
+      <main className="min-h-screen bg-slate-50 text-slate-900 pb-16 sm:pb-20">
         
-        {/* ── 1. Hero Section ──────────────────────────────────── */}
-        {cms.show("hero") && (
-          <section className="relative w-full overflow-hidden bg-surface pb-16 pt-32 lg:pt-36">
-            {/* Background Ambient Glows & Vector Flight Lines */}
-            <div aria-hidden className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[650px] opacity-40">
-              <div className="absolute top-12 left-1/4 h-80 w-80 rounded-full bg-secondary-container/20 blur-[100px]" />
-              <div className="absolute top-24 right-1/4 h-96 w-96 rounded-full bg-tertiary-fixed-dim/20 blur-[120px]" />
-              <svg className="h-full w-full text-outline-variant/60" fill="none" viewBox="0 0 1440 860" preserveAspectRatio="xMidYMid slice">
-                <path d="M-80 320C220 280 480 440 760 380C1040 320 1280 420 1520 280" stroke="currentColor" strokeDasharray="6 8" strokeWidth="1.2" />
-                <path d="M120 780C380 640 740 700 980 540C1220 380 1380 460 1540 360" stroke="currentColor" strokeDasharray="4 6" strokeWidth="1" />
-                <circle cx="760" cy="380" r="4" fill="#ffb54d" />
-                <circle cx="980" cy="540" r="3.5" fill="#19938a" />
-                <circle cx="280" cy="300" r="3" fill="#141b2f" />
-              </svg>
-            </div>
+        {/* ── 1. ReadyTrip-Style Mobile & Desktop Hero ────────────────────── */}
+        <section className="relative overflow-hidden bg-slate-950 pb-12 pt-8 sm:pb-20 sm:pt-14 lg:pt-20">
+          
+          {/* Hero Background Image with Subtle Gradient */}
+          <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+            <Image
+              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=cover&w=2000&q=80"
+              alt="Global travel destination"
+              fill
+              priority
+              className="object-cover object-center opacity-30 scale-105 transition-transform duration-1000"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/65 to-slate-950" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-950/70 via-transparent to-blue-950/70" />
+          </div>
 
-            <Container className="relative z-10">
-              <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
-                
-                {/* Left Hero Column */}
-                <div className="space-y-6 lg:col-span-7">
-                  {/* Trust Pill */}
-                  <div className="inline-flex items-center gap-2.5 rounded-full border border-secondary/30 bg-surface-container-high/80 px-4 py-1.5 shadow-sm backdrop-blur-md">
-                    <span className="flex h-2 w-2 rounded-full bg-secondary animate-pulse" />
-                    <span className="font-eyebrow text-eyebrow uppercase tracking-widest text-primary font-bold">
-                      {t("hero_eyebrow", "The Complete Travel & Paperwork Concierge")}
-                    </span>
-                    <span className="rounded-full bg-secondary-container/40 px-2 py-0.5 font-ticket-code text-[9px] uppercase text-on-secondary-container">
-                      India
-                    </span>
-                  </div>
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center z-10">
+            
+            {/* Top Tagline Pill */}
+            <p className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 rounded-full bg-blue-500/15 border border-blue-400/25 text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-blue-300 mb-3 sm:mb-4 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-blue-400 animate-pulse" />
+              Direct Global Concierge
+            </p>
 
-                  {/* Main Title */}
-                  <h1 className="font-display-hero text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-primary leading-[1.12]">
-                    {renderEmphasis(t("hero_title", "The world, navigated with *effortless* distinction."))}
-                  </h1>
+            {/* Hero Main Heading */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.12] drop-shadow-sm">
+              Find something extraordinary<br />
+              <span className="text-blue-400">to experience</span>, anywhere.
+            </h1>
 
-                  {/* Subtitle */}
-                  <p className="max-w-2xl font-body-lg text-base sm:text-lg leading-relaxed text-on-surface-variant">
-                    {t(
-                      "hero_subtitle",
-                      "One unified account for your visa paperwork, MEA document attestation, flights, hotels, cruises, and authentic yoga retreats we operate ourselves in Rishikesh. With dedicated specialists at every single milestone."
-                    )}
-                  </p>
+            {/* Subtitle */}
+            <p className="mt-3 sm:mt-4 text-sm sm:text-lg text-slate-200/90 max-w-2xl mx-auto leading-relaxed font-medium">
+              Handpicked visas, MEA document attestation, flights, stays, tours &amp; authentic Rishikesh retreats — trusted specialists, instant updates &amp; zero hidden fees.
+            </p>
 
-                  {/* CTA Buttons */}
-                  <div className="flex flex-wrap items-center gap-4 pt-2">
-                    <PrimaryLink href="#finder" className="shadow-lg shadow-secondary-container/20">
-                      {t("hero_btn_primary", "Explore All 9 Services")}
-                    </PrimaryLink>
-                    <GhostLink href="/yoga-retreats" className="border border-surface-container-high bg-surface-container-lowest shadow-sm hover:border-secondary">
-                      <Leaf className="h-4 w-4 text-secondary" />
-                      <span>{t("hero_btn_secondary", "Rishikesh Retreats")}</span>
-                    </GhostLink>
-                  </div>
-
-                  {/* Quick Highlight Metrics */}
-                  {cms.show("stats") && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-surface-container-high pt-6">
-                      {stats.map((s) => (
-                        <div key={s.label} className="space-y-1">
-                          <p className="font-headline-sm text-2xl font-bold text-primary">{s.num}</p>
-                          <p className="font-label-sm text-xs text-on-surface-variant leading-snug">{s.label}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Right Hero Visual (Arched Card with Floating Badges) */}
-                <div className="relative flex justify-center lg:col-span-5 lg:justify-end">
-                  <div className="relative w-full max-w-md">
-                    
-                    {/* Main Arched Photo Container */}
-                    <div className="relative overflow-hidden rounded-t-[140px] rounded-b-3xl border-2 border-surface-container-high bg-surface-container-lowest p-3 shadow-2xl">
-                      <div className="relative aspect-[3/4] overflow-hidden rounded-t-[130px] rounded-b-2xl bg-surface-container">
-                        <Photo 
-                          src={IMAGES.hero} 
-                          alt="Traveller looking over misty hills in Munnar Kerala" 
-                          className="h-full w-full scale-[1.02] object-cover object-center transition-transform duration-700 hover:scale-105" 
-                        />
-                        <div className="absolute inset-x-0 bottom-0 flex h-36 flex-col justify-end bg-gradient-to-t from-primary-container/90 via-primary-container/40 to-transparent p-5">
-                          <span className="flex items-center gap-1.5 font-eyebrow text-eyebrow uppercase tracking-widest text-secondary-container">
-                            <MapPin className="h-3.5 w-3.5 text-secondary-container" /> Munnar &amp; Rishikesh
-                          </span>
-                          <span className="font-headline-sm text-sm text-on-primary font-medium mt-0.5">
-                            Handcrafted Indian &amp; Global Expeditions
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Floating Trust Badge: Top Right */}
-                    <div className="absolute -right-3 -top-3 flex items-center gap-2.5 rounded-2xl border border-white/20 bg-primary-container/95 px-4 py-2.5 text-on-primary shadow-xl backdrop-blur-md">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary-container text-on-secondary-container">
-                        <Award className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <p className="font-ticket-code text-[11px] uppercase tracking-wider text-secondary-container font-bold">
-                          Govt. MEA Verified
-                        </p>
-                        <p className="text-[10px] text-on-primary-container">Legal Apostille Concierge</p>
-                      </div>
-                    </div>
-
-                    {/* Floating Trust Badge: Bottom Left */}
-                    <div className="absolute -bottom-4 -left-4 flex items-center gap-3 rounded-2xl border border-surface-container-high bg-surface-container-lowest px-4 py-3 shadow-xl">
-                      <div className="flex -space-x-2">
-                        <span className="inline-block h-7 w-7 rounded-full bg-secondary-container/40 border-2 border-white text-center text-[10px] font-bold leading-6">🇮🇳</span>
-                        <span className="inline-block h-7 w-7 rounded-full bg-secondary-fixed border-2 border-white text-center text-[10px] font-bold leading-6">🇨🇭</span>
-                        <span className="inline-block h-7 w-7 rounded-full bg-tertiary-fixed border-2 border-white text-center text-[10px] font-bold leading-6">🇦🇪</span>
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1 text-amber-500">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-3 w-3 fill-current" />
-                          ))}
-                        </div>
-                        <p className="font-ticket-code text-[10px] uppercase tracking-wider text-primary font-bold mt-0.5">
-                          5,000+ Travellers Assisted
-                        </p>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-            </Container>
-          </section>
-        )}
-
-        {/* ── 2. Interactive Discovery & Quick Finder Hub ──────── */}
-        <section id="finder" className="relative z-20 scroll-mt-24 px-margin-mobile md:px-margin-tablet lg:px-margin">
-          <div className="mx-auto max-w-7xl">
-            <div className="rounded-3xl border border-surface-container-high bg-surface-container-lowest p-6 shadow-2xl lg:p-8">
-              <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-surface-container-high pb-4">
-                <div>
-                  <h2 className="font-headline-sm text-lg sm:text-xl font-bold text-primary">
-                    Find Requirements &amp; Request Immediate Guidance
-                  </h2>
-                  <p className="font-body-sm text-xs text-on-surface-variant mt-0.5">
-                    Select your service category below to calculate turnaround times and initiate your application.
-                  </p>
-                </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-container px-3 py-1 font-ticket-code text-[10px] uppercase text-primary">
-                  <Zap className="h-3 w-3 text-secondary" /> Instant Dispatch
-                </span>
-              </div>
+            {/* ── ReadyTrip Search Bar Widget ───────────────────────────── */}
+            <div className="mt-6 sm:mt-8 max-w-4xl mx-auto">
               <PlanBar />
             </div>
+
+            {/* Trust Badges Row (Touch responsive) */}
+            <div className="mt-6 sm:mt-8 flex flex-wrap justify-center items-center gap-2 sm:gap-4">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold bg-white/10 border border-white/20 backdrop-blur-md text-white shadow-sm">
+                <Receipt className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300 shrink-0" />
+                <span>No hidden fees</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold bg-white/10 border border-white/20 backdrop-blur-md text-white shadow-sm">
+                <Lock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300 shrink-0" />
+                <span>Govt. MEA Verified</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold bg-white/10 border border-white/20 backdrop-blur-md text-white shadow-sm">
+                <Headphones className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300 shrink-0" />
+                <span>24/7 Concierge</span>
+              </div>
+            </div>
+
           </div>
         </section>
 
-        {/* ── 3. Accreditations & Global Network Marquee ───────── */}
-        <div className="mt-16 w-full border-y border-surface-container-high bg-surface-container-low py-4" aria-hidden>
-          <div className="marquee-track animate-marquee items-center gap-10 whitespace-nowrap">
-            {[0, 1].map((k) => (
-              <div key={k} className="flex items-center gap-10 pr-10">
-                {ACCREDITATIONS.map((item) => (
-                  <div key={item.name} className="flex items-center gap-3">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface-container text-secondary text-xs">
-                      ✦
-                    </span>
-                    <div>
-                      <span className="font-ticket-code text-xs font-bold uppercase tracking-wider text-primary">
-                        {item.name}
-                      </span>
-                      <span className="ml-2 font-label-sm text-[11px] text-on-surface-variant">
-                        ({item.label})
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── 4. Popular Destination & Visa Gateways ──────────── */}
-        <section className="py-20 bg-surface">
-          <Container>
-            <SectionHeader
-              eyebrow="Global Destinations"
-              title={<>Top Routes from <Em>India</Em> This Season.</>}
-              intro="Fast-track document checklists, consulate requirements, and biometric assistance tailored for Indian passport holders."
-              action={
-                <Link href="/services/visa-assistance" className="inline-flex items-center gap-2 font-label-md text-secondary hover:underline font-semibold">
-                  All 50+ Countries <ArrowRight className="h-4 w-4" />
-                </Link>
-              }
-            />
-
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {POPULAR_DESTINATION_CARDS.map((item) => (
+        {/* ── 2. Category Tabs Filter Bar (Mobile Touch Carousel) ────────── */}
+        <section className="sticky top-14 sm:top-16 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 py-2.5 sm:py-3 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide py-0.5 -mx-4 px-4 sm:mx-0 sm:px-0 sm:justify-center">
+              {[
+                { label: "All Services", href: "#popular-destinations" },
+                { label: "Visa Assistance", href: "/services/visa-assistance" },
+                { label: "MEA Attestation", href: "/services/mea-attestation" },
+                { label: "Yoga Retreats", href: "/yoga-retreats" },
+                { label: "Flights & Stays", href: "/services/flight-booking" },
+                { label: "Tours & Combos", href: "/services/tours-activities" },
+                { label: "Cruises", href: "/services/cruise-packages" },
+                { label: "Community", href: "/community" },
+              ].map((tab, idx) => (
                 <Link
-                  key={item.country}
-                  href={item.href}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-surface-container-high bg-surface-container-lowest p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-secondary hover:shadow-xl"
+                  key={tab.label}
+                  href={tab.href}
+                  className={`press shrink-0 inline-flex items-center px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold border transition-all ${
+                    idx === 0
+                      ? "bg-slate-900 text-white border-slate-900"
+                      : "bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50/60"
+                  }`}
                 >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-3xl">{item.flag}</span>
-                      <span className="rounded-full bg-secondary-container/30 px-2.5 py-1 font-ticket-code text-[9px] font-bold uppercase tracking-wider text-on-secondary-container">
-                        {item.tag}
-                      </span>
-                    </div>
+                  {tab.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
-                    <div>
-                      <h3 className="font-headline-sm text-lg font-bold text-primary group-hover:text-secondary transition-colors">
-                        {item.country}
-                      </h3>
-                      <div className="flex items-center gap-1.5 text-xs text-outline mt-1 font-ticket-code uppercase">
-                        <Clock className="h-3 w-3 text-secondary" />
-                        <span>Est: {item.time}</span>
-                      </div>
-                    </div>
+        {/* ── 3. Popular Destinations (Swipeable on Mobile) ──────────────── */}
+        <section id="popular-destinations" className="py-8 sm:py-12 md:py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            {/* Header */}
+            <div className="flex items-end justify-between pb-4 sm:pb-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600 mb-0.5 sm:mb-1">
+                  Top picks &amp; Global Hubs
+                </p>
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
+                  Popular destinations
+                </h2>
+              </div>
+              <Link
+                href="/services/visa-assistance"
+                className="press inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-700"
+              >
+                <span>See all</span>
+                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              </Link>
+            </div>
 
-                    <p className="font-body-sm text-xs leading-relaxed text-on-surface-variant">
-                      {item.desc}
-                    </p>
+            {/* 5-Column Grid on Desktop, Smooth Touch-Snap on Mobile */}
+            <div className="flex gap-3 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:overflow-visible">
+              {POPULAR_DESTINATIONS.map((dest) => (
+                <Link
+                  key={dest.name}
+                  href={dest.href}
+                  className="press group relative block w-[155px] h-[215px] sm:w-[190px] sm:h-[260px] lg:w-full lg:h-[280px] shrink-0 snap-start rounded-2xl overflow-hidden shadow-card hover:shadow-card-lg transition-all"
+                >
+                  <Image
+                    src={dest.image}
+                    alt={dest.name}
+                    fill
+                    sizes="(max-width: 640px) 155px, (max-width: 1024px) 190px, 20vw"
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  />
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
+
+                  <div className="absolute top-2.5 end-2.5 sm:top-3 sm:end-3 grid place-items-center size-7 sm:size-8 rounded-full bg-white/90 backdrop-blur-sm shadow-sm text-slate-800">
+                    <ArrowUpRight className="h-3.5 w-3.5" />
                   </div>
 
-                  <div className="mt-6 flex items-center justify-between border-t border-surface-container-high pt-4 font-label-sm text-xs font-bold text-secondary">
-                    <span>View Requirements</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                  <div className="absolute top-2.5 start-2.5 sm:top-3 sm:start-3">
+                    <span className="rounded-full bg-blue-600/95 backdrop-blur-sm px-2 py-0.5 text-[9px] sm:text-[10px] font-bold text-white shadow-sm">
+                      {dest.tag}
+                    </span>
+                  </div>
+
+                  <div className="absolute inset-x-3 bottom-3 space-y-0.5 sm:space-y-1">
+                    <h3 className="text-sm sm:text-base font-bold text-white leading-tight line-clamp-1">
+                      {dest.name}
+                    </h3>
+                    <p className="text-[11px] sm:text-xs font-medium text-slate-300 line-clamp-1">
+                      {dest.badge}
+                    </p>
                   </div>
                 </Link>
               ))}
             </div>
-          </Container>
+
+          </div>
         </section>
 
-        {/* ── 5. The 9-Service Bento Ecosystem ─────────────────── */}
-        <section id="services" className="scroll-mt-24 bg-surface-container-low py-20">
-          <Container>
-            <SectionHeader
-              eyebrow="Our Complete Ecosystem"
-              title={<>Nine Services. One Account. <Em>Zero</Em> Friction.</>}
-              intro="Whether it is an urgent MEA degree apostille, Schengen visa paperwork, international flights, or serene Himalayan retreats, everything stays organized in one place."
-              action={
-                <Link href="/services" className="inline-flex items-center gap-2 font-label-md text-secondary hover:underline font-semibold">
-                  Browse All Services Hub <ArrowRight className="h-4 w-4" />
-                </Link>
-              }
-            />
-
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12">
-              <ServiceCard service={S("visa-assistance")} variant="large" className="lg:col-span-7" />
-              <ServiceCard service={S("attestation")} className="lg:col-span-5" />
-              <ServiceCard service={S("yoga-retreats")} variant="dark" className="lg:col-span-4" />
-              <ServiceCard service={S("tours")} className="lg:col-span-4" />
-              <ServiceCard service={S("community")} variant="teal" className="lg:col-span-4" />
-              <ServiceCard service={S("flights")} variant="small" className="lg:col-span-3" />
-              <ServiceCard service={S("hotels")} variant="small" className="lg:col-span-3" />
-              <ServiceCard service={S("cruises")} variant="small" className="lg:col-span-3" />
-              <ServiceCard service={S("international-bus")} variant="small" className="lg:col-span-3" />
-            </div>
-          </Container>
-        </section>
-
-        {/* ── 6. The BookMyGlobal Distinction Matrix ───────────── */}
-        <section className="py-20 bg-surface">
-          <Container>
-            <div className="rounded-3xl border border-surface-container-high bg-surface-container-lowest p-8 lg:p-12 shadow-xl">
-              <div className="mx-auto max-w-3xl text-center space-y-3 mb-12">
-                <Eyebrow>The Distinction</Eyebrow>
-                <h2 className="font-display-hero text-3xl sm:text-4xl font-semibold text-primary">
-                  Why Indian Travellers Choose <Em>BookMyGlobal</Em>
-                </h2>
-                <p className="font-body-md text-on-surface-variant">
-                  We bridge the gap between bureaucratic paperwork and experiential travel with total pricing clarity.
+        {/* ── 4. Trending Now (ReadyTrip Product Carousel / Grid) ────────── */}
+        <section className="py-8 sm:py-12 md:py-16 bg-white border-y border-slate-200/80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div className="flex items-end justify-between pb-4 sm:pb-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600 mb-0.5 sm:mb-1">
+                  Booked the most this week
                 </p>
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
+                  Trending services &amp; experiences
+                </h2>
               </div>
-
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                <div className="space-y-4 rounded-2xl bg-surface-container-low p-6 border border-surface-container-high">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container">
-                    <ShieldCheck className="h-6 w-6" />
-                  </span>
-                  <h3 className="font-headline-sm text-lg font-bold text-primary">
-                    100% Upfront Pricing
-                  </h3>
-                  <p className="font-body-sm text-sm text-on-surface-variant leading-relaxed">
-                    We review your paperwork before quoting. No sudden hidden embassy fees, no unexpected markups. You approve the transparent quote before paying.
-                  </p>
-                </div>
-
-                <div className="space-y-4 rounded-2xl bg-surface-container-low p-6 border border-surface-container-high">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-container text-secondary-container">
-                    <Sparkles className="h-6 w-6" />
-                  </span>
-                  <h3 className="font-headline-sm text-lg font-bold text-primary">
-                    Direct Ashram Operations
-                  </h3>
-                  <p className="font-body-sm text-sm text-on-surface-variant leading-relaxed">
-                    Our Rishikesh Yoga Tourism retreats are operated directly by our own on-ground team — not resold through third-party intermediaries.
-                  </p>
-                </div>
-
-                <div className="space-y-4 rounded-2xl bg-surface-container-low p-6 border border-surface-container-high">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed-variant">
-                    <HeartHandshake className="h-6 w-6" />
-                  </span>
-                  <h3 className="font-headline-sm text-lg font-bold text-primary">
-                    Dedicated Single Case Officer
-                  </h3>
-                  <p className="font-body-sm text-sm text-on-surface-variant leading-relaxed">
-                    Speak with a real specialist who manages your files from the initial checklist to biometric appointments and final courier tracking.
-                  </p>
-                </div>
-              </div>
+              <Link
+                href="/services"
+                className="press inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-700"
+              >
+                <span>See all</span>
+                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              </Link>
             </div>
-          </Container>
+
+            {/* Swipeable on Mobile, Grid on Desktop */}
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 snap-x snap-mandatory lg:grid lg:grid-cols-4 lg:overflow-visible">
+              {TRENDING_SERVICES.map((item) => {
+                const service = S(item.slug);
+                if (!service) return null;
+                return (
+                  <div key={item.slug} className="w-[270px] sm:w-[290px] shrink-0 snap-start lg:w-full">
+                    <ServiceCard
+                      service={service}
+                      badge={item.badge}
+                      location={item.location}
+                      price={item.price}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+          </div>
         </section>
 
-        {/* ── 7. Interactive 4-Step Journey Roadmap ────────────── */}
-        {cms.show("steps") && (
-          <section id="how-it-works" className="scroll-mt-24 bg-surface-container-low py-20">
-            <Container>
-              <SectionHeader
-                align="center"
-                eyebrow={t("steps_eyebrow", "Seamless Workflow")}
-                title={t("steps_title", "Four Steps from Request to Landing")}
-                intro={t("steps_subtitle", "Clear milestones, continuous updates, and encrypted document handling at every stage.")}
-              />
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                {[
-                  { step: "01", title: t("step1_title", "Pick what you need"), text: t("step1_desc", "Choose your visa, attestation route, or travel service and submit your details.") },
-                  { step: "02", title: t("step2_title", "Upload documents"), text: t("step2_desc", "Upload required files securely. Our case officers audit every page for consistency.") },
-                  { step: "03", title: t("step3_title", "Review & clear quote"), text: t("step3_desc", "Approve the transparent quote and pay securely via Razorpay (UPI, cards, netbanking).") },
-                  { step: "04", title: "Track & receive", text: "Receive real-time progress alerts, appointment confirmations, and insured courier returns." },
-                ].map((s, i) => (
-                  <div key={s.title} className="group relative flex flex-col justify-between gap-6 rounded-3xl border border-surface-container-high bg-surface-container-lowest p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-secondary hover:shadow-xl">
-                    <div className="flex items-center justify-between">
-                      <span className="font-ticket-code text-xs font-bold uppercase tracking-wider text-secondary">
-                        Stage {s.step}
-                      </span>
-                      <span className={`flex h-9 w-9 items-center justify-center rounded-2xl font-ticket-code text-xs font-bold ${
-                        i === 3 
-                          ? "bg-secondary-container text-on-secondary-container" 
-                          : "bg-surface-container text-primary"
-                      }`}>
-                        {s.step}
-                      </span>
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="font-headline-sm text-lg font-bold text-primary group-hover:text-secondary transition-colors">
-                        {s.title}
-                      </h3>
-                      <p className="font-body-sm text-xs leading-relaxed text-on-surface-variant">
-                        {s.text}
-                      </p>
-                    </div>
-                    <div className="h-1 w-full rounded-full bg-surface-container overflow-hidden">
-                      <div className={`h-full bg-secondary transition-all duration-500 ${i === 0 ? "w-1/4" : i === 1 ? "w-2/4" : i === 2 ? "w-3/4" : "w-full"}`} />
-                    </div>
-                  </div>
-                ))}
+        {/* ── 5. Recommended For You Grid ────────────────────────────────── */}
+        <section className="py-8 sm:py-12 md:py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div className="flex items-end justify-between pb-4 sm:pb-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600 mb-0.5 sm:mb-1">
+                  Hand-picked for you
+                </p>
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
+                  Recommended travel &amp; legal solutions
+                </h2>
               </div>
-              <div className="mt-10 text-center">
-                <Link href="/how-it-works" className="inline-flex items-center gap-2 font-label-md text-sm font-semibold text-secondary hover:underline">
-                  Explore The Detailed Step-by-Step Guide <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </Container>
-          </section>
-        )}
+            </div>
 
-        {/* ── 8. Rishikesh Yoga Retreats Spotlight ─────────────── */}
-        <section id="rishikesh" className="scroll-mt-24 bg-surface py-20">
-          <Container>
-            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+            {/* Swipeable on Mobile, Grid on Desktop */}
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 snap-x snap-mandatory lg:grid lg:grid-cols-4 lg:overflow-visible">
+              {RECOMMENDED_PACKAGES.map((item) => {
+                const service = S(item.slug);
+                if (!service) return null;
+                return (
+                  <div key={item.slug} className="w-[270px] sm:w-[290px] shrink-0 snap-start lg:w-full">
+                    <ServiceCard
+                      service={service}
+                      badge={item.badge}
+                      location={item.location}
+                      price={item.price}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 6. Value Proposition Grid (4 Trust Cards) ──────────────────── */}
+        <section className="py-8 sm:py-12 md:py-16 bg-white border-y border-slate-200/80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 rounded-3xl bg-slate-50 border border-slate-200/90 p-5 sm:p-8 shadow-card">
               
-              {/* Arched Photo Grid */}
-              <div className="grid grid-cols-2 gap-4 lg:col-span-6">
-                <div className="aspect-[9/14] overflow-hidden rounded-t-[100px] rounded-b-2xl bg-surface-container shadow-xl">
-                  <Photo src={IMAGES.retreatA} alt="Morning meditation by the Ganges" className="h-full w-full object-cover transition-transform duration-500 hover:scale-105" />
-                </div>
-                <div className="mt-10 aspect-[9/14] overflow-hidden rounded-t-[100px] rounded-b-2xl bg-surface-container shadow-xl">
-                  <Photo src={IMAGES.retreatB} alt="Open-air yoga pavilion in Himalayas" className="h-full w-full object-cover transition-transform duration-500 hover:scale-105" />
-                </div>
-              </div>
-
-              {/* Text & Daily Routine */}
-              <div className="space-y-6 lg:col-span-6">
-                <div className="inline-flex items-center gap-2 rounded-full bg-surface-container-high px-3.5 py-1 text-secondary">
-                  <Leaf className="h-4 w-4" />
-                  <span className="font-eyebrow text-eyebrow uppercase tracking-widest font-bold">
-                    Our Own Operations · Rishikesh
-                  </span>
-                </div>
-
-                <h2 className="font-display-hero text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-primary leading-tight">
-                  Yoga Tourism, run by us, <Em>not resold.</Em>
-                </h2>
-
-                <p className="font-body-lg text-base leading-relaxed text-on-surface-variant">
-                  Our flagship retreats in Rishikesh are created, staffed, and operated directly by BookMyGlobal. Experience traditional Hatha and Ashtanga practices, certified pranayama, pure Ayurvedic dining, and private Ganga aarti moments.
-                </p>
-
-                {/* Day-in-the-Life Schedule Card */}
-                <div className="space-y-3 rounded-2xl border border-surface-container-high bg-surface-container-lowest p-5 shadow-sm">
-                  <div className="flex items-center justify-between border-b border-surface-container-high pb-2.5">
-                    <span className="font-ticket-code text-xs uppercase text-primary font-bold">A Typical Day</span>
-                    <span className="font-ticket-code text-xs uppercase text-secondary font-bold">Rishikesh Ashram</span>
-                  </div>
-                  {[
-                    ["06:30 AM", "Morning Ganga Sunrise Meditation & Herbal Infusion"],
-                    ["08:00 AM", "Guided Asana & Dynamic Breathwork Practice"],
-                    ["01:00 PM", "Traditional Sattvic Ayurvedic Lunch & Rest"],
-                    ["05:30 PM", "Philosophy Discourse & Sacred Aarti by the River"],
-                  ].map(([a, b]) => (
-                    <div key={a} className="flex items-start justify-between text-xs text-on-surface-variant">
-                      <span className="font-ticket-code text-primary font-semibold">{a}</span>
-                      <span className="text-right font-medium">{b}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-4 pt-2">
-                  <PrimaryLink href="/contact?type=RETREAT">
-                    Inquire About Next Intake
-                  </PrimaryLink>
-                  <GhostLink href="/yoga-retreats" className="border border-surface-container-high bg-surface-container-lowest hover:border-secondary">
-                    View Retreat Itineraries
-                  </GhostLink>
-                </div>
-              </div>
-
-            </div>
-          </Container>
-        </section>
-
-        {/* ── 9. Verified Customer Stories & Trust Wall ─────────── */}
-        <section className="bg-surface-container-low py-20">
-          <Container>
-            <SectionHeader
-              align="center"
-              eyebrow="Real Experiences"
-              title={<>Endorsed by Travellers Across <Em>India &amp; Abroad</Em>.</>}
-              intro="Read authentic feedback from professionals, students, and holidaymakers who rely on BookMyGlobal."
-            />
-
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {REVIEWS.map((rev) => (
-                <div key={rev.name} className="flex flex-col justify-between rounded-3xl border border-surface-container-high bg-surface-container-lowest p-7 shadow-sm transition-all hover:shadow-lg">
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1 text-amber-500">
-                        {[...Array(rev.rating)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-current" />
-                        ))}
-                      </div>
-                      <span className="rounded-full bg-secondary-container/20 px-2 py-0.5 font-ticket-code text-[9px] uppercase tracking-wider text-secondary">
-                        Verified Traveller
-                      </span>
-                    </div>
-                    <p className="font-body-md text-sm leading-relaxed text-on-surface italic">
-                      &ldquo;{rev.quote}&rdquo;
-                    </p>
-                  </div>
-
-                  <div className="mt-6 border-t border-surface-container-high pt-4">
-                    <p className="font-title-md text-sm font-bold text-primary">{rev.name}</p>
-                    <div className="flex items-center justify-between text-xs text-on-surface-variant mt-0.5">
-                      <span>{rev.location}</span>
-                      <span className="font-ticket-code uppercase text-[10px] text-secondary font-semibold">{rev.service}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Container>
-        </section>
-
-        {/* ── 10. Journal & Traveler Circle ────────────────────── */}
-        <section id="journal" className="scroll-mt-24 py-20 bg-surface">
-          <Container>
-            <SectionHeader
-              eyebrow="The Travel Journal"
-              title="Essential Guides for the Global Traveller."
-              action={
-                <Link href="/blog" className="inline-flex items-center gap-2 font-label-md text-secondary hover:underline font-semibold">
-                  All Articles &amp; Insights <ArrowRight className="h-4 w-4" />
-                </Link>
-              }
-            />
-
-            {posts.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {posts.map((p) => (
-                  <Link key={p.id} href={`/blog/${p.slug}`} className="group flex flex-col overflow-hidden rounded-3xl border border-surface-container-high bg-surface-container-lowest shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-secondary hover:shadow-xl">
-                    <div className="relative aspect-[16/10] overflow-hidden bg-surface-container">
-                      <Photo src={p.featuredImageUrl} alt={p.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      {p.category && (
-                        <span className="absolute left-3 top-3 rounded-full bg-surface-container-lowest/90 px-3 py-1 font-ticket-code text-[10px] uppercase tracking-wider text-primary backdrop-blur-md">
-                          {p.category}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex flex-1 flex-col justify-between gap-4 p-6">
-                      <div className="space-y-2">
-                        <span className="block font-ticket-code text-[11px] uppercase tracking-wider text-outline">
-                          {readTime(p.content)}
-                        </span>
-                        <h3 className="font-headline-sm text-lg font-bold text-primary transition-colors group-hover:text-secondary">
-                          {p.title}
-                        </h3>
-                        {p.excerpt && (
-                          <p className="line-clamp-2 font-body-sm text-xs text-on-surface-variant">
-                            {p.excerpt}
-                          </p>
-                        )}
-                      </div>
-                      <span className="inline-flex items-center gap-1 font-label-sm text-xs font-bold text-secondary">
-                        Read full guide <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-3xl border border-surface-container-high bg-surface-container-low p-10 text-center">
-                <Sparkles className="mx-auto h-7 w-7 text-secondary" />
-                <p className="mt-3 font-title-md text-base font-bold text-primary">New Destination Guides in Preparation.</p>
-                <p className="font-body-sm text-xs text-on-surface-variant mt-1">Subscribe below to receive expert tips, visa policy changes, and retreat schedules.</p>
-              </div>
-            )}
-
-            {/* Newsletter Circle */}
-            <div className="mt-12 flex flex-col items-center justify-between gap-6 rounded-3xl border border-surface-container-high bg-surface-container-low p-8 md:flex-row">
-              <div className="flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container">
-                  <ShieldCheck className="h-6 w-6" />
+              <div className="flex items-start gap-3.5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
+                  <Receipt className="h-5 w-5" />
                 </span>
                 <div>
-                  <h3 className="font-title-md text-base font-bold text-primary">Join the BookMyGlobal Traveller Circle</h3>
-                  <p className="font-body-sm text-xs text-on-surface-variant">Curated visa alerts, retreat announcements, and travel notes directly to your inbox.</p>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">No booking fees</h3>
+                  <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                    Transparent pricing. The price you see is the price you pay.
+                  </p>
                 </div>
               </div>
-              <NewsletterSignup />
+
+              <div className="flex items-start gap-3.5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                  <ShieldCheck className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Govt. MEA Verified</h3>
+                  <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                    Legitimate apostille, attestation &amp; embassy verified paperwork.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sky-100 text-sky-600">
+                  <CalendarCheck className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Free cancellation</h3>
+                  <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                    Plans change. Cancel free on eligible travel &amp; tour bookings.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3.5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
+                  <Headphones className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">24/7 Global support</h3>
+                  <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                    Real human specialists on WhatsApp and phone around the clock.
+                  </p>
+                </div>
+              </div>
+
             </div>
-          </Container>
+          </div>
         </section>
 
-        {/* ── 11. Instant Request Desk & FAQ ──────────────────── */}
-        <section id="contact" className="scroll-mt-24 bg-surface-container-low py-20">
-          <Container>
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        {/* ── 7. ReadyTrip "How BookMyGlobal Works" (3 Steps) ─────────────── */}
+        <section className="py-10 sm:py-16 md:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600 mb-1">
+                Book in 3 easy steps
+              </p>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
+                How BookMyGlobal works
+              </h2>
+            </div>
+
+            <ol className="relative grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
               
-              {/* FAQ Left Column */}
-              <div className="space-y-6 lg:col-span-5">
-                <Eyebrow>Common Inquiries</Eyebrow>
-                <h2 className="font-display-hero text-3xl font-semibold text-primary">
-                  Frequently Asked Questions
-                </h2>
-                <p className="font-body-md text-sm text-on-surface-variant">
-                  Have a specific question regarding consular submissions or retreat bookings? Our specialists are available 7 days a week.
+              {/* Step 1 */}
+              <li className="relative flex flex-col items-center text-center p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-card">
+                <div className="relative mb-4">
+                  <span className="grid place-items-center size-16 sm:size-20 rounded-full bg-blue-50 text-blue-600 shadow-sm border border-blue-100">
+                    <FileCheck className="h-7 w-7 sm:h-9 sm:w-9" />
+                  </span>
+                  <span className="absolute -top-1 -end-1 grid place-items-center size-5 sm:size-6 rounded-full bg-slate-900 text-white text-[11px] sm:text-xs font-bold">
+                    1
+                  </span>
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  Choose your requirement
+                </h3>
+                <p className="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs">
+                  Pick your visa destination, document attestation protocol, or retreat program and check custom requirements.
                 </p>
-                <HomeFaq items={HOME_FAQS} />
+              </li>
+
+              {/* Step 2 */}
+              <li className="relative flex flex-col items-center text-center p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-card">
+                <div className="relative mb-4">
+                  <span className="grid place-items-center size-16 sm:size-20 rounded-full bg-blue-50 text-blue-600 shadow-sm border border-blue-100">
+                    <Lock className="h-7 w-7 sm:h-9 sm:w-9" />
+                  </span>
+                  <span className="absolute -top-1 -end-1 grid place-items-center size-5 sm:size-6 rounded-full bg-slate-900 text-white text-[11px] sm:text-xs font-bold">
+                    2
+                  </span>
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  Submit details &amp; secure payment
+                </h3>
+                <p className="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs">
+                  Upload paperwork securely into our 256-bit vault and complete payment via Stripe, Razorpay, or PayPal.
+                </p>
+              </li>
+
+              {/* Step 3 */}
+              <li className="relative flex flex-col items-center text-center p-5 sm:p-6 rounded-3xl bg-white border border-slate-200/90 shadow-card">
+                <div className="relative mb-4">
+                  <span className="grid place-items-center size-16 sm:size-20 rounded-full bg-emerald-50 text-emerald-600 shadow-sm border border-emerald-100">
+                    <Sparkles className="h-7 w-7 sm:h-9 sm:w-9" />
+                  </span>
+                  <span className="absolute -top-1 -end-1 grid place-items-center size-5 sm:size-6 rounded-full bg-slate-900 text-white text-[11px] sm:text-xs font-bold">
+                    3
+                  </span>
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  Receive vouchers &amp; travel carefree
+                </h3>
+                <p className="mt-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs">
+                  Get your attested documents via insured courier, e-visas and vouchers in your inbox, plus 24/7 concierge assistance.
+                </p>
+              </li>
+
+            </ol>
+
+          </div>
+        </section>
+
+        {/* ── 8. ReadyTrip 24/7 WhatsApp & Live Support Callout (Mobile-tuned) */}
+        <section className="py-6 sm:py-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="relative overflow-hidden rounded-3xl border border-blue-200/80 bg-gradient-to-br from-blue-50 via-white to-sky-50 p-5 sm:p-8 shadow-card flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+              
+              <div className="flex items-center gap-3.5 sm:gap-4">
+                <div className="relative shrink-0">
+                  <span className="grid place-items-center size-12 sm:size-14 rounded-2xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
+                    <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />
+                  </span>
+                  <span className="absolute -bottom-1 -end-1 size-3 rounded-full bg-emerald-500 ring-2 ring-white" />
+                </div>
+                <div>
+                  <p className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">
+                    <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                    Online now
+                  </p>
+                  <h3 className="text-base sm:text-xl font-bold text-slate-900 mt-0.5">
+                    We're here for you, 24/7
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-xl mt-0.5">
+                    Real travel specialists on WhatsApp and phone — before, during, and after your trip.
+                  </p>
+                </div>
               </div>
 
-              {/* Instant Request Form Right Column */}
-              <div className="lg:col-span-7">
-                <div className="relative overflow-hidden rounded-3xl border border-surface-container-high bg-surface-container-lowest p-8 shadow-xl">
-                  <Stamp lines={["Direct", "Desk"]} className="absolute -right-4 -top-4 h-24 w-24 rotate-12" />
-                  <div className="mb-6 space-y-1">
-                    <span className="font-eyebrow text-eyebrow uppercase tracking-widest text-secondary font-bold">
-                      Direct Concierge
-                    </span>
-                    <h3 className="font-headline-md text-2xl font-bold tracking-tight text-primary">
-                      Tell Us What You Need
-                    </h3>
-                    <p className="font-body-sm text-xs text-on-surface-variant">
-                      Share your details and a dedicated consultant will review and reply within 2 hours.
-                    </p>
-                  </div>
-                  <EnquiryForm />
+              <div className="shrink-0 w-full md:w-auto">
+                <a
+                  href="https://wa.me/917678356255"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="press flex h-12 w-full md:w-auto items-center justify-center gap-2 rounded-full bg-blue-600 px-6 text-sm font-bold text-white shadow-cta hover:bg-blue-700 transition-all"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  <span>Chat on WhatsApp</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ── 9. ReadyTrip Royal Blue CTA Banner ─────────────────────────── */}
+        <section className="py-8 sm:py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 px-6 py-10 sm:px-10 sm:py-14 text-center text-white shadow-xl shadow-blue-500/10">
+              
+              <div aria-hidden className="absolute -top-24 end-0 size-80 rounded-full bg-white/10 blur-2xl" />
+              <div aria-hidden className="absolute -bottom-24 start-0 size-72 rounded-full bg-sky-400/10 blur-2xl" />
+
+              <div className="relative max-w-2xl mx-auto">
+                <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-snug">
+                  Your next global adventure is one tap away
+                </h2>
+                <p className="mt-2.5 sm:mt-3 text-sm sm:text-base text-blue-100 font-medium leading-relaxed">
+                  Visas, government apostilles, luxury stays &amp; retreats worldwide with dedicated specialists at every milestone.
+                </p>
+                
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-3">
+                  <Link
+                    href="/services/visa-assistance"
+                    className="press flex h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-7 text-sm font-bold text-blue-700 shadow-md hover:bg-slate-50 transition-colors"
+                  >
+                    <span>Explore Destinations</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/services"
+                    className="press flex h-12 w-full sm:w-auto items-center justify-center rounded-full bg-white/15 px-7 text-sm font-bold text-white border border-white/30 hover:bg-white/20 transition-colors"
+                  >
+                    Browse All Services
+                  </Link>
                 </div>
               </div>
 
             </div>
-          </Container>
+          </div>
+        </section>
+
+        {/* ── 10. Traveller Reviews (Swipeable on Mobile) ────────────────── */}
+        <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600 mb-1">
+                Verified Reviews
+              </p>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Trusted by 5,000+ travellers
+              </h2>
+            </div>
+
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 snap-x snap-mandatory md:grid md:grid-cols-3 md:overflow-visible">
+              {REVIEWS.map((rev) => (
+                <div
+                  key={rev.name}
+                  className="w-[280px] sm:w-[320px] shrink-0 snap-start md:w-full rounded-3xl border border-slate-200/90 bg-slate-50/50 p-5 sm:p-6 shadow-sm flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center gap-1 text-amber-500 mb-2.5 sm:mb-3">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+                      "{rev.quote}"
+                    </p>
+                  </div>
+
+                  <div className="mt-5 pt-3.5 border-t border-slate-200 flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs sm:text-sm font-bold text-slate-900">{rev.name}</h4>
+                      <p className="text-[11px] sm:text-xs text-slate-500">{rev.location}</p>
+                    </div>
+                    <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-blue-700">
+                      {rev.service}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 11. Structured FAQs ────────────────────────────────────────── */}
+        <section className="py-10 sm:py-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-6 sm:mb-8">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600 mb-1">
+                Got questions?
+              </p>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Frequently Asked Questions
+              </h2>
+            </div>
+            <HomeFaq items={HOME_FAQS} />
+          </div>
+        </section>
+
+        {/* ── 12. Direct Concierge Enquiry Form ─────────────────────────── */}
+        <section className="py-10 sm:py-16 bg-white border-t border-slate-200/80">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-6 sm:mb-8">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600 mb-1">
+                Custom Concierge
+              </p>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Tell us where you are headed
+              </h2>
+              <p className="mt-1.5 text-xs sm:text-sm text-slate-600">
+                Share your itinerary or paperwork requirements, and a dedicated specialist will contact you.
+              </p>
+            </div>
+            <EnquiryForm />
+          </div>
         </section>
 
       </main>
+
       <Footer />
     </>
   );

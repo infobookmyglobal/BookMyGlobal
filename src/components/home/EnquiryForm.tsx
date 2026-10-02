@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Send, Lock } from "lucide-react";
+import { CheckCircle2, Send, Lock, ShieldCheck } from "lucide-react";
 
 export const ENQUIRY_TYPES: { value: string; label: string }[] = [
   { value: "GENERAL", label: "General question" },
@@ -17,8 +17,8 @@ export const ENQUIRY_TYPES: { value: string; label: string }[] = [
 ];
 
 const field =
-  "w-full rounded-xl bg-surface-container px-4 py-3 font-body-md text-body-md text-primary placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-secondary transition-all";
-const label = "font-eyebrow text-eyebrow uppercase tracking-wider text-on-surface-variant";
+  "w-full rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-base sm:text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all";
+const label = "text-xs font-bold uppercase tracking-wider text-slate-500";
 
 export function EnquiryForm({
   defaultType = "GENERAL",
@@ -63,19 +63,19 @@ export function EnquiryForm({
 
   if (state === "done") {
     return (
-      <div className="py-12 text-center">
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant">
+      <div className="py-10 sm:py-12 text-center rounded-3xl bg-blue-50/50 border border-blue-100 p-6 sm:p-8">
+        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
           <CheckCircle2 className="h-7 w-7" />
         </span>
-        <h3 className="mt-space-md font-headline-sm text-headline-sm text-primary">Thanks, we have your request</h3>
-        <p className="mt-2 font-body-md text-on-surface-variant">Our team will reply to your email shortly.</p>
+        <h3 className="mt-4 text-lg sm:text-xl font-bold text-slate-900">Thank you! Your request is received.</h3>
+        <p className="mt-2 text-xs sm:text-sm text-slate-600">Our direct travel concierge team will reach out via WhatsApp &amp; Email within a few hours.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-space-md">
-      <div className="grid grid-cols-1 gap-space-md md:grid-cols-2">
+    <form onSubmit={onSubmit} className="space-y-3.5 sm:space-y-4 rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-card-lg">
+      <div className="grid grid-cols-1 gap-3.5 sm:gap-4 md:grid-cols-2">
         <div className="space-y-1.5">
           <label className={label} htmlFor="enq-name">Full name</label>
           <input id="enq-name" name="name" required minLength={2} placeholder="Your name" className={field} />
@@ -85,46 +85,54 @@ export function EnquiryForm({
           <input id="enq-email" name="email" type="email" required placeholder="name@example.com" className={field} />
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-space-md md:grid-cols-2">
+
+      <div className="grid grid-cols-1 gap-3.5 sm:gap-4 md:grid-cols-2">
         <div className="space-y-1.5">
-          <label className={label} htmlFor="enq-phone">Mobile / WhatsApp (optional)</label>
+          <label className={label} htmlFor="enq-phone">WhatsApp / Phone Number</label>
           <input id="enq-phone" name="phone" type="tel" placeholder="+91 98XXX XXXXX" className={field} />
         </div>
         <div className="space-y-1.5">
-          <label className={label} htmlFor="enq-type">What do you need?</label>
+          <label className={label} htmlFor="enq-type">What do you need assistance with?</label>
           <select id="enq-type" name="type" defaultValue={defaultType} className={`${field} cursor-pointer`}>
             {ENQUIRY_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-space-md md:grid-cols-2">
+
+      <div className="grid grid-cols-1 gap-3.5 sm:gap-4 md:grid-cols-2">
         <div className="space-y-1.5">
-          <label className={label} htmlFor="enq-dest">Destination (optional)</label>
-          <input id="enq-dest" name="destination" defaultValue={defaultDestination} placeholder="e.g. Switzerland, Japan, UAE" className={field} />
+          <label className={label} htmlFor="enq-dest">Destination country (optional)</label>
+          <input id="enq-dest" name="destination" defaultValue={defaultDestination} placeholder="e.g. Switzerland, Dubai, Rishikesh" className={field} />
         </div>
         <div className="space-y-1.5">
-          <label className={label} htmlFor="enq-date">Travel date (optional)</label>
-          <input id="enq-date" name="travelDate" defaultValue={defaultDate} placeholder="e.g. mid-March" className={field} />
+          <label className={label} htmlFor="enq-date">Intended travel date (optional)</label>
+          <input id="enq-date" name="travelDate" defaultValue={defaultDate} placeholder="e.g. Next month, November 2026" className={field} />
         </div>
       </div>
+
+      {/* Honeypot field */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+
       <div className="space-y-1.5">
-        <label className={label} htmlFor="enq-msg">Tell us more</label>
-        <textarea id="enq-msg" name="message" required minLength={5} rows={4} placeholder="Where you are headed, who is travelling, and what you need help with" className={field} />
+        <label className={label} htmlFor="enq-msg">Specific requirements or notes</label>
+        <textarea id="enq-msg" name="message" rows={3} placeholder="Tell us about your visa requirements, document types, or travel plans..." className={field} />
       </div>
-      {/* honeypot: hidden from people, bots fill it */}
-      <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
-      {state === "error" && <p className="font-label-md text-error">{error}</p>}
-      <div className="flex flex-col items-center justify-between gap-space-md pt-space-sm sm:flex-row">
-        <p className="flex items-center gap-2 font-ticket-code text-[10px] uppercase tracking-wider text-on-surface-variant">
-          <Lock className="h-4 w-4 text-secondary" /> Used only to answer your request
-        </p>
+
+      {error && <p className="text-xs font-semibold text-red-600">{error}</p>}
+
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3.5 sm:gap-4 pt-2">
+        <div className="flex items-center gap-2 text-xs text-slate-500">
+          <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
+          <span>No spam guarantee · 256-bit secure encryption</span>
+        </div>
+
         <button
           type="submit"
           disabled={state === "sending"}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-secondary-container px-8 py-3.5 font-label-md font-bold text-on-secondary-container shadow-sm transition-all hover:bg-secondary-fixed disabled:opacity-60 sm:w-auto"
+          className="press w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3 text-sm font-bold text-white shadow-cta hover:bg-blue-700 disabled:opacity-50 transition-all"
         >
-          <span>{state === "sending" ? "Sending…" : "Send request"}</span>
-          <Send className="h-[18px] w-[18px]" />
+          <span>{state === "sending" ? "Sending..." : "Submit Request"}</span>
+          <Send className="h-4 w-4" />
         </button>
       </div>
     </form>

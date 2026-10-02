@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone, ShieldCheck, Lock, Award, Heart } from "lucide-react";
+import { Mail, Phone, ShieldCheck, Lock, Award, Heart, MessageCircle } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { SUPPORT_EMAIL, SUPPORT_PHONE } from "@/lib/contact";
 import { SERVICES } from "@/config/services";
@@ -21,82 +21,76 @@ const LEGAL = [
   { href: "/disclaimer", label: "Government Disclaimer" },
 ];
 
-const heading = "font-eyebrow text-[11px] uppercase tracking-widest text-secondary-container font-bold";
-const link = "font-body-sm text-xs text-on-primary-container transition-colors hover:text-on-primary hover:underline";
+const POPULAR_DESTINATIONS_TAGS = [
+  { name: "Switzerland (Schengen)", href: "/services/visa-assistance?country=Switzerland" },
+  { name: "United Arab Emirates", href: "/services/visa-assistance?country=UAE" },
+  { name: "United Kingdom", href: "/services/visa-assistance?country=UK" },
+  { name: "Japan", href: "/services/visa-assistance?country=Japan" },
+  { name: "Rishikesh Sanctuary", href: "/yoga-retreats" },
+  { name: "Singapore", href: "/services/visa-assistance?country=Singapore" },
+  { name: "Thailand", href: "/services/tours-activities" },
+  { name: "Indonesia (Bali)", href: "/services/tours-activities" },
+  { name: "Vietnam", href: "/services/visa-assistance?country=Vietnam" },
+  { name: "United States", href: "/services/visa-assistance?country=US" },
+  { name: "Australia", href: "/services/visa-assistance?country=Australia" },
+];
+
+const heading = "text-xs font-bold uppercase tracking-wider text-slate-900";
+const link = "text-xs font-medium text-slate-600 transition-colors hover:text-blue-600";
 
 export function Footer() {
   const docs = SERVICES.filter((s) => s.kicker === "Documents");
   const trips = SERVICES.filter((s) => s.kicker !== "Documents");
 
   return (
-    <footer className="relative w-full overflow-hidden bg-primary-container pb-12 pt-20 text-on-primary">
-      {/* Background Watermark */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-10 left-1/2 -translate-x-1/2 select-none whitespace-nowrap font-display-hero text-[13vw] leading-none tracking-tight text-white/[0.02]"
-      >
-        BookMyGlobal
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-margin-mobile md:px-margin-tablet lg:px-margin">
-        
-        {/* Top Trust Banner */}
-        <div className="mb-14 grid grid-cols-1 gap-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md md:grid-cols-3">
-          <div className="flex items-center gap-3.5">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container">
-              <ShieldCheck className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="font-title-md text-sm font-bold text-on-primary">MEA &amp; Consulate Liaisons</p>
-              <p className="text-xs text-on-primary-container">Certified document attestation &amp; apostille workflows</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3.5">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-secondary-container">
-              <Lock className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="font-title-md text-sm font-bold text-on-primary">256-Bit Encrypted Vault</p>
-              <p className="text-xs text-on-primary-container">Strict Indian data privacy compliance &amp; private storage</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3.5">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed-variant">
-              <Award className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="font-title-md text-sm font-bold text-on-primary">Direct Retreat Operator</p>
-              <p className="text-xs text-on-primary-container">Authentic Rishikesh Yoga Tourism Ashram programs</p>
-            </div>
+    <footer className="relative w-full overflow-hidden bg-white border-t border-slate-200/90 text-slate-900">
+      
+      {/* ── ReadyTrip Explore More / Directory Tag Cloud ───────────────── */}
+      <div className="border-b border-slate-100 py-6 sm:py-8 bg-slate-50/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h3 className="text-xs sm:text-sm font-bold text-slate-900 mb-2.5 sm:mb-3">
+            Explore top destinations &amp; services
+          </h3>
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            {POPULAR_DESTINATIONS_TAGS.map((tag) => (
+              <Link
+                key={tag.name}
+                href={tag.href}
+                className="press rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+              >
+                {tag.name}
+              </Link>
+            ))}
           </div>
         </div>
+      </div>
 
-        {/* Main Footer Links */}
-        <div className="grid grid-cols-1 gap-10 pb-12 md:grid-cols-2 lg:grid-cols-5 border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-8 sm:pb-10">
+        
+        {/* Main Footer Columns (2-Col on Mobile, 5-Col on Desktop) */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-8 pb-8 sm:pb-10 border-b border-slate-100">
           
-          {/* Brand Col */}
-          <div className="space-y-4">
-            <Logo tone="dark" />
-            <p className="font-body-sm text-xs leading-relaxed text-on-primary-container">
-              The complete concierge for Indian travellers: MEA attestation, international visa applications, flights, stays, tours, and direct Rishikesh yoga tourism.
+          {/* Brand Info (Full width on mobile) */}
+          <div className="col-span-2 md:col-span-4 lg:col-span-1 space-y-3 sm:space-y-4">
+            <Logo tone="light" withTagline={true} />
+            <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
+              Direct global concierge for Indian &amp; international travellers: MEA document apostille, visas, luxury stays, flights, tours, and direct Rishikesh Ganga retreats.
             </p>
-            <div className="space-y-2 pt-2">
-              <a href={`mailto:${SUPPORT_EMAIL}`} className="flex items-center gap-2 font-label-sm text-xs text-secondary-container hover:text-on-primary">
-                <Mail className="h-3.5 w-3.5" /> {SUPPORT_EMAIL}
+            <div className="space-y-1.5 pt-1">
+              <a href={`mailto:${SUPPORT_EMAIL}`} className="flex items-center gap-2 text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors">
+                <Mail className="h-3.5 w-3.5 text-blue-600 shrink-0" /> <span className="truncate">{SUPPORT_EMAIL}</span>
               </a>
               {SUPPORT_PHONE && (
-                <a href={`tel:${SUPPORT_PHONE}`} className="flex items-center gap-2 font-label-sm text-xs text-secondary-container hover:text-on-primary">
-                  <Phone className="h-3.5 w-3.5" /> {SUPPORT_PHONE}
+                <a href={`tel:${SUPPORT_PHONE}`} className="flex items-center gap-2 text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors">
+                  <Phone className="h-3.5 w-3.5 text-blue-600 shrink-0" /> {SUPPORT_PHONE}
                 </a>
               )}
             </div>
           </div>
 
-          {/* Documents Col */}
-          <div className="space-y-3">
-            <h4 className={heading}>Documents &amp; Visas</h4>
+          {/* Visas & MEA Legal */}
+          <div className="space-y-2.5 sm:space-y-3">
+            <h4 className={heading}>Visas &amp; MEA</h4>
             <ul className="space-y-2">
               {docs.map((s) => (
                 <li key={s.slug}>
@@ -106,9 +100,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Trips & Stays Col */}
-          <div className="space-y-3">
-            <h4 className={heading}>Trips, Stays &amp; Tours</h4>
+          {/* Stays & Retreats */}
+          <div className="space-y-2.5 sm:space-y-3">
+            <h4 className={heading}>Stays &amp; Tours</h4>
             <ul className="space-y-2">
               {trips.map((s) => (
                 <li key={s.slug}>
@@ -118,8 +112,8 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Platform Col */}
-          <div className="space-y-3">
+          {/* Platform */}
+          <div className="space-y-2.5 sm:space-y-3">
             <h4 className={heading}>Platform</h4>
             <ul className="space-y-2">
               {PLATFORM.map((l) => (
@@ -130,8 +124,8 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal Col */}
-          <div className="space-y-3">
+          {/* Trust & Legal */}
+          <div className="space-y-2.5 sm:space-y-3">
             <h4 className={heading}>Trust &amp; Legal</h4>
             <ul className="space-y-2">
               {LEGAL.map((l) => (
@@ -144,11 +138,11 @@ export function Footer() {
 
         </div>
 
-        {/* Bottom Bar with Disclaimers & Copyright */}
-        <div className="flex flex-col items-center justify-between gap-4 pt-8 text-xs text-on-primary-container md:flex-row">
-          <p>© {new Date().getFullYear()} BookMyGlobal. All rights reserved.</p>
-          <p className="max-w-2xl text-center md:text-right text-[11px] text-on-primary-container/80 leading-relaxed">
-            Disclaimer: BookMyGlobal is an independent private concierge and travel management platform. We are not an embassy, consulate, or official government authority. Consular and visa grant decisions are subject to sovereign government discretion.
+        {/* Bottom Bar: Copyright & Government Disclaimer */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 pt-6 sm:pt-8 text-xs text-slate-500">
+          <p className="text-center md:text-left">© {new Date().getFullYear()} BookMyGlobal Technologies. All rights reserved.</p>
+          <p className="max-w-xl text-center md:text-right text-[11px] text-slate-400 leading-relaxed">
+            Disclaimer: BookMyGlobal is an independent private concierge and travel management platform. We are not an embassy or government authority. Consular decisions are subject to sovereign government discretion.
           </p>
         </div>
 

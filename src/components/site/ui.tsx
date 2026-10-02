@@ -1,41 +1,43 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import type { ReactNode } from "react";
 
 export function Container({ children, className = "", narrow = false }: { children: ReactNode; className?: string; narrow?: boolean }) {
   return (
-    <div className={`mx-auto w-full ${narrow ? "max-w-4xl" : "max-w-7xl"} px-margin-mobile md:px-margin-tablet lg:px-margin ${className}`}>
+    <div className={`mx-auto w-full ${narrow ? "max-w-4xl" : "max-w-7xl"} px-4 sm:px-6 lg:px-8 ${className}`}>
       {children}
     </div>
   );
 }
 
-export function Eyebrow({ children, tone = "gold", className = "" }: { children: ReactNode; tone?: "gold" | "light" | "teal"; className?: string }) {
-  const c = tone === "light" ? "text-secondary-container" : tone === "teal" ? "text-on-tertiary-container" : "text-secondary";
-  return <span className={`font-eyebrow text-eyebrow uppercase ${c} ${className}`}>{children}</span>;
+export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return (
+    <span className={`text-xs font-bold uppercase tracking-[0.14em] text-blue-600 ${className}`}>
+      {children}
+    </span>
+  );
 }
 
-/** Small italic emphasis used inside headings, in the design's serif. */
-export function Em({ children, className = "text-secondary" }: { children: ReactNode; className?: string }) {
-  return <span className={`font-display-hero font-normal italic ${className}`}>{children}</span>;
+/** Italic or colored emphasis inside headings */
+export function Em({ children, className = "text-blue-600" }: { children: ReactNode; className?: string }) {
+  return <span className={`font-extrabold ${className}`}>{children}</span>;
 }
 
 export function IndiaTag() {
   return (
-    <span className="rounded-full bg-secondary-container/30 px-2.5 py-0.5 font-ticket-code text-[9px] font-bold uppercase tracking-wider text-on-secondary-container">
+    <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700">
       India only
     </span>
   );
 }
 
-/** Rotated passport-stamp badge. */
-export function Stamp({ lines, className = "", tone = "gold" }: { lines: string[]; className?: string; tone?: "gold" | "teal" }) {
-  const color = tone === "teal" ? "border-on-tertiary-container text-on-tertiary-container" : "border-secondary text-secondary";
+/** Passport-stamp or security trust badge */
+export function Stamp({ lines, className = "" }: { lines: string[]; className?: string }) {
   return (
-    <div className={`pointer-events-none flex select-none items-center justify-center rounded-full bg-surface-container-lowest p-1.5 shadow-lg ${className}`}>
-      <div className={`flex h-full w-full flex-col items-center justify-center rounded-full border-2 border-dashed bg-surface-container-low p-2 text-center ${color}`}>
+    <div className={`pointer-events-none flex select-none items-center justify-center rounded-2xl bg-white p-1.5 shadow-md border border-slate-100 ${className}`}>
+      <div className="flex h-full w-full flex-col items-center justify-center rounded-xl border border-dashed border-blue-200 bg-blue-50/50 p-2 text-center text-blue-700">
         {lines.map((l, i) => (
-          <span key={i} className={`font-ticket-code uppercase tracking-widest ${i === 0 ? "text-[9px] font-bold text-primary" : "text-[9px] font-bold"}`}>{l}</span>
+          <span key={i} className={`text-[10px] uppercase tracking-wider font-bold ${i === 0 ? "text-blue-900" : ""}`}>{l}</span>
         ))}
       </div>
     </div>
@@ -46,46 +48,39 @@ export function SectionHeader({
   eyebrow, title, intro, align = "left", action,
 }: { eyebrow?: string; title: ReactNode; intro?: ReactNode; align?: "left" | "center"; action?: ReactNode }) {
   return (
-    <div className={`mb-space-xl flex flex-col gap-space-md ${align === "center" ? "items-center text-center" : "md:flex-row md:items-end md:justify-between"}`}>
-      <div className={`max-w-2xl space-y-space-xs ${align === "center" ? "mx-auto" : ""}`}>
+    <div className={`mb-8 md:mb-10 flex flex-col gap-3 ${align === "center" ? "items-center text-center" : "md:flex-row md:items-end md:justify-between"}`}>
+      <div className={`max-w-2xl space-y-1.5 ${align === "center" ? "mx-auto" : ""}`}>
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-        <h2 className="font-headline-lg-mobile text-headline-lg-mobile tracking-tight text-primary md:font-headline-lg md:text-headline-lg">{title}</h2>
-        {intro && <p className="font-body-lg text-body-lg text-on-surface-variant">{intro}</p>}
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900">{title}</h2>
+        {intro && <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{intro}</p>}
       </div>
       {action}
     </div>
   );
 }
 
-/** Top of every inner page: sits under the floating header. */
 export function PageHero({
   eyebrow, title, intro, children, breadcrumb,
 }: { eyebrow?: string; title: ReactNode; intro?: ReactNode; children?: ReactNode; breadcrumb?: { label: string; href?: string }[] }) {
   return (
-    <section className="relative overflow-hidden bg-surface pb-space-xl pt-32">
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-40">
-        <svg className="h-full w-full text-outline-variant" fill="none" viewBox="0 0 1440 520" preserveAspectRatio="none">
-          <path d="M-80 200C220 160 480 300 760 250C1040 200 1280 290 1520 170" stroke="currentColor" strokeDasharray="6 8" strokeWidth="1.2" />
-          <circle cx="760" cy="250" r="4" fill="currentColor" />
-          <circle cx="280" cy="190" r="2.5" fill="currentColor" />
-        </svg>
-      </div>
+    <section className="relative overflow-hidden bg-white border-b border-slate-100 pb-12 pt-16 lg:pb-16 lg:pt-20">
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-blue-50/60 to-transparent opacity-70" />
       <Container className="relative">
         {breadcrumb && (
-          <nav aria-label="Breadcrumb" className="mb-space-md flex flex-wrap items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
-            <Link href="/" className="hover:text-primary">Home</Link>
+          <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500">
+            <Link href="/" className="hover:text-blue-600">Home</Link>
             {breadcrumb.map((b) => (
               <span key={b.label} className="flex items-center gap-2">
-                <span aria-hidden>/</span>
-                {b.href ? <Link href={b.href} className="hover:text-primary">{b.label}</Link> : <span className="text-primary">{b.label}</span>}
+                <span aria-hidden className="text-slate-300">/</span>
+                {b.href ? <Link href={b.href} className="hover:text-blue-600">{b.label}</Link> : <span className="text-slate-900 font-bold">{b.label}</span>}
               </span>
             ))}
           </nav>
         )}
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-        <h1 className="mt-space-sm max-w-3xl font-headline-lg-mobile text-headline-lg-mobile tracking-tight text-primary md:font-headline-lg md:text-headline-lg lg:text-[3.5rem] lg:leading-[3.75rem]">{title}</h1>
-        {intro && <p className="mt-space-md max-w-2xl font-body-lg text-body-lg leading-relaxed text-on-surface-variant">{intro}</p>}
-        {children && <div className="mt-space-lg">{children}</div>}
+        <h1 className="mt-2 max-w-3xl text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">{title}</h1>
+        {intro && <p className="mt-3 max-w-2xl text-base sm:text-lg text-slate-600 leading-relaxed">{intro}</p>}
+        {children && <div className="mt-6">{children}</div>}
       </Container>
     </section>
   );
@@ -95,10 +90,10 @@ export function PrimaryLink({ href, children, className = "" }: { href: string; 
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 rounded-full bg-secondary-container px-7 py-3.5 font-label-md text-label-md text-on-secondary-container shadow-sm transition-all hover:bg-secondary-fixed ${className}`}
+      className={`press inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-cta hover:bg-blue-700 transition-all ${className}`}
     >
       <span>{children}</span>
-      <ArrowRight className="h-[18px] w-[18px]" />
+      <ArrowRight className="h-4 w-4" />
     </Link>
   );
 }
@@ -107,7 +102,7 @@ export function GhostLink({ href, children, className = "" }: { href: string; ch
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 rounded-full bg-surface-container px-6 py-3.5 font-label-md text-label-md text-primary transition-all hover:bg-surface-container-high ${className}`}
+      className={`press inline-flex items-center gap-2 rounded-full bg-white border border-slate-200 px-6 py-3.5 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-300 transition-all ${className}`}
     >
       {children}
     </Link>
@@ -118,17 +113,35 @@ export function CtaBand({
   title = "Tell us where you are headed.",
   text = "Share your plans and we will help with the documents and bookings, one step at a time.",
   href = "/contact",
-  cta = "Get in touch",
-}: { title?: string; text?: string; href?: string; cta?: string }) {
+  actionLabel,
+  cta,
+}: {
+  title?: ReactNode;
+  text?: ReactNode;
+  href?: string;
+  actionLabel?: string;
+  cta?: string;
+}) {
+  const label = cta || actionLabel || "Start a conversation";
   return (
-    <section className="bg-surface px-margin-mobile pb-space-2xl md:px-margin-tablet lg:px-margin">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-primary-container px-6 py-14 text-center sm:py-16">
-        <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-secondary-container/10 blur-3xl" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-on-tertiary-container/10 blur-3xl" />
-        <h2 className="relative mx-auto max-w-2xl font-headline-lg-mobile text-headline-lg-mobile text-on-primary md:font-headline-lg md:text-headline-lg">{title}</h2>
-        <p className="relative mx-auto mt-space-md max-w-xl font-body-lg text-body-lg text-on-primary-container">{text}</p>
-        <div className="relative mt-space-xl"><PrimaryLink href={href}>{cta}</PrimaryLink></div>
-      </div>
+    <section className="py-12 md:py-16">
+      <Container>
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-8 sm:p-12 text-center text-white shadow-xl shadow-blue-500/10">
+          <div className="relative z-10 max-w-2xl mx-auto space-y-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">{title}</h2>
+            <p className="text-sm sm:text-base text-blue-100">{text}</p>
+            <div className="pt-4 flex justify-center">
+              <Link
+                href={href}
+                className="press inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-blue-700 shadow-md hover:bg-slate-50 transition-colors"
+              >
+                <span>{label}</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Container>
     </section>
   );
 }
