@@ -9,10 +9,15 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const admin = await requireRole("ADMIN");
   const isUnlocked = await isAdminUnlocked(admin.id);
 
-  // Fetch pending review applications count for notification badge
-  const pendingCount = await prisma.application.count({
-    where: { status: "UNDER_REVIEW" },
-  });
+  // Fetch pending review applications count for notification badge safely
+  let pendingCount = 0;
+  try {
+    pendingCount = await prisma.application.count({
+      where: { status: "UNDER_REVIEW" },
+    });
+  } catch (err) {
+    console.error("[AdminLayout] Database error fetching pendingCount:", err);
+  }
 
   return (
     <div className="legacy">
@@ -22,3 +27,4 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     </div>
   );
 }
+

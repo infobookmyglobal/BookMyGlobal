@@ -7,50 +7,74 @@ export default async function AdminDashboardOverview() {
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
 
-  const [
-    totalApps,
-    pendingReview,
-    revenueTodayPayments,
-    shippedToday,
-    recentApps,
-    pendingPartnerRequestsRaw,
-  ] = await Promise.all([
-    prisma.application.count(),
-    prisma.application.count({ where: { status: { in: ["UNDER_REVIEW", "PENDING"] } } }),
-    prisma.payment.findMany({
-      where: {
-        status: "COMPLETED",
-        createdAt: { gte: todayStart },
-      },
-      select: {
-        amount: true,
-        currency: true,
-      },
-    }),
-    prisma.shipment.count({
-      where: {
-        dispatchedAt: { gte: todayStart },
-      },
-    }),
-    prisma.application.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      include: { payment: true },
-    }),
-    prisma.partnerRequest.findMany({
-      where: { status: "PENDING" },
-      orderBy: { createdAt: "desc" },
-    }),
-  ]);
+  let totalApps = 0;
+  let pendingReview = 0;
+  let revenueTodayPayments: Array<{ amount: number; currency: string }> = [];
+  let shippedToday = 0;
+  let recentApps: Array<any> = [];
+  let pendingPartnerRequestsRaw: Array<any> = [];
+  let dbError = false;
 
-  const { fetchRates } = await import("@/lib/currency");
-  const rates = await fetchRates();
+  try {
+    const [
+      totalAppsRes,
+      pendingReviewRes,
+      revenueTodayPaymentsRes,
+      shippedTodayRes,
+      recentAppsRes,
+      pendingPartnerRequestsRawRes,
+    ] = await Promise.all([
+      prisma.application.count(),
+      prisma.application.count({ where: { status: { in: ["UNDER_REVIEW", "PENDING"] } } }),
+      prisma.payment.findMany({
+        where: {
+          status: "COMPLETED",
+          createdAt: { gte: todayStart },
+        },
+        select: {
+          amount: true,
+          currency: true,
+        },
+      }),
+      prisma.shipment.count({
+        where: {
+          dispatchedAt: { gte: todayStart },
+        },
+      }),
+      prisma.application.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 10,
+        include: { payment: true },
+      }),
+      prisma.partnerRequest.findMany({
+        where: { status: "PENDING" },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
+
+    totalApps = totalAppsRes;
+    pendingReview = pendingReviewRes;
+    revenueTodayPayments = revenueTodayPaymentsRes;
+    shippedToday = shippedTodayRes;
+    recentApps = recentAppsRes;
+    pendingPartnerRequestsRaw = pendingPartnerRequestsRawRes;
+  } catch (err) {
+    console.error("[AdminDashboardOverview] Database query error:", err);
+    dbError = true;
+  }
+
+  let rates: Record<string, number> = {};
+  try {
+    const { fetchRates } = await import("@/lib/currency");
+    rates = await fetchRates();
+  } catch {
+    // Fallback to empty object; fallback rates used
+  }
 
   const revenueToday = revenueTodayPayments.reduce((sum, pay) => {
-    const rate = rates[pay.currency.toUpperCase()] || 1;
+    const rate = rates[pay.currency?.toUpperCase()] || 1;
     return sum + (pay.amount / rate);
   }, 0);
-
 
   const pendingPartnerRequests = pendingPartnerRequestsRaw.map((r) => ({
     id: r.id,
@@ -58,11 +82,19 @@ export default async function AdminDashboardOverview() {
     email: r.email,
     phone: r.phone,
     address: r.address,
-    createdAt: r.createdAt.toISOString(),
+    createdAt: r.createdAt ? new Date(r.createdAt).toISOString() : new Date().toISOString(),
   }));
 
   return (
     <div className="space-y-6 max-w-6xl">
+      {dbError && (
+        <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-4 text-xs font-semibold flex items-center justify-between shadow-sm">
+          <span>
+            ⚠️ <strong>Database Alert:</strong> Could not connect to PostgreSQL. Please verify your <code>DATABASE_URL</code> variable in Vercel environment settings.
+          </span>
+        </div>
+      )}
+
       {/* Welcome Banner */}
       <div className="bg-gradient-to-br from-navy to-blue rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl shadow-blue/10">
         <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-white/5 blur-xl" />

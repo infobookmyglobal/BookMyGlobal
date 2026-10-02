@@ -5,6 +5,13 @@ import { prisma } from "./prisma";
 
 export type Role = "ADMIN" | "PARTNER" | "USER";
 
+/** Helper to check if an error is a Next.js redirect exception */
+function isRedirectError(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false;
+  const digest = (err as { digest?: string }).digest;
+  return typeof digest === "string" && digest.startsWith("NEXT_REDIRECT");
+}
+
 /** Comma-separated list in ADMIN_EMAIL becomes the set of auto-promoted admins. */
 export function getAdminEmails(): string[] {
   return (process.env.ADMIN_EMAIL || "")
@@ -24,78 +31,96 @@ export function isAdminEmail(email?: string | null): boolean {
  * Returns null when nobody is signed in.
  */
 export async function getCurrentDbUser(): Promise<User | null> {
-  const { userId } = await auth();
-  if (!userId) return null;
+  try {
+    const { userId } = await auth();
+    if (!userId) return null;
 
-  let user = await prisma.user.findUnique({ where: { clerkId: userId } });
-
-  if (!user) {
-    const clerkUser = await currentUser();
-    if (!clerkUser) return null;
-
-    const email = clerkUser.emailAddresses[0]?.emailAddress ?? "";
-
-    if (email) {
-      const existing = await prisma.user.findUnique({ where: { email } });
-      if (existing) {
-        user = await prisma.user.update({
-          where: { id: existing.id },
-          data: { clerkId: userId },
-        });
-      }
-    }
+    let user = await prisma.user.findUnique({ where: { clerkId: userId } });
 
     if (!user) {
-      user = await prisma.user.create({
-        data: {
-          clerkId: userId,
-          email,
-          name:
-            `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim() ||
-            "User",
-          role: isAdminEmail(email) ? "ADMIN" : "USER",
-        },
-      });
+      const clerkUser = await currentUser().catch(() => null);
+      if (!clerkUser) return null;
 
-      try {
-        const { sendAdminNewUserRegistrationNotificationEmail } = await import("./ses");
-        await sendAdminNewUserRegistrationNotificationEmail({
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          country: user.country,
+      const email = clerkUser.emailAddresses[0]?.emailAddress ?? "";
+
+      if (email) {
+        const existing = await prisma.user.findUnique({ where: { email } });
+        if (existing) {
+          user = await prisma.user.update({
+            where: { id: existing.id },
+            data: { clerkId: userId },
+          });
+        }
+      }
+
+      if (!user) {
+        user = await prisma.user.create({
+          data: {
+            clerkId: userId,
+            email,
+            name:
+              `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim() ||
+              "User",
+            role: isAdminEmail(email) ? "ADMIN" : "USER",
+          },
         });
-      } catch (err) {
-        console.error("[auth] Failed to notify admin of new user:", err);
+
+        try {
+          const { sendAdminNewUserRegistrationNotificationEmail } = await import("./ses");
+          await sendAdminNewUserRegistrationNotificationEmail({
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            country: user.country,
+          });
+        } catch (err) {
+          console.error("[auth] Failed to notify admin of new user:", err);
+        }
       }
     }
-  }
 
-  // Auto-promote when the email is in ADMIN_EMAIL
-  if (user.role !== "ADMIN" && isAdminEmail(user.email)) {
-    user = await prisma.user.update({
-      where: { id: user.id },
-      data: { role: "ADMIN" },
-    });
-  }
+    // Auto-promote when the email is in ADMIN_EMAIL
+    if (user && user.role !== "ADMIN" && isAdminEmail(user.email)) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { role: "ADMIN" },
+      });
+    }
 
-  return user;
+    return user;
+  } catch (err) {
+    if (isRedirectError(err)) throw err;
+    console.error("[auth] getCurrentDbUser encountered an error:", err);
+    return null;
+  }
 }
 
 /** For server components / layouts: redirects away unless the user has `role`. */
 export async function requireRole(role: Role) {
-  const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
+  try {
+    const { userId } = await auth();
+    if (!userId) redirect("/sign-in");
 
-  const user = await getCurrentDbUser();
-  if (!user || user.role !== role) {
-    redirect(role === "USER" ? "/" : "/dashboard");
+    const user = await getCurrentDbUser();
+    if (!user || user.role !== role) {
+      redirect(role === "USER" ? "/" : "/dashboard");
+    }
+    return user;
+  } catch (err) {
+    if (isRedirectError(err)) throw err;
+    console.error(`[auth] requireRole(${role}) error:`, err);
+    // If auth/db is failing completely, redirect to sign-in gracefully
+    redirect("/sign-in");
   }
-  return user;
 }
 
 /** For API routes: true only when the caller is signed in with `role`. */
 export async function checkRoleApi(role: Role): Promise<boolean> {
-  const user = await getCurrentDbUser();
-  return !!user && user.role === role;
+  try {
+    const user = await getCurrentDbUser();
+    return !!user && user.role === role;
+  } catch {
+    return false;
+  }
 }
+
